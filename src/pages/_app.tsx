@@ -10,7 +10,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <>
-      <ChakraProvider theme={theme}>
+      <ChakraProvider>
         <ThemeProvider theme={theme}>
           <GlobalStyle />
           <Component {...pageProps} />
