@@ -2,15 +2,13 @@ import Header from "@/components/Header";
 import { Wrapper, InputGroup, Input } from './style';
 import { InputLeftElement, Flex, Center, Text, Box } from '@chakra-ui/react';
 import { Search2Icon } from '@chakra-ui/icons';
+import Sidebar from "@/components/Sidebar";
+import Layout from "@/components/Layout";
 
 const AddBook = () => {
     return (
-        <Flex w="100%">
-            <Center w='100px' bg='green.500'>
-                <Text>Box 1</Text>
-            </Center>
-            <Wrapper flex='1'>
-                <Header />
+        <Layout>
+            <>
                 <InputGroup>
                     <InputLeftElement
                     pointerEvents='none'
@@ -18,8 +16,8 @@ const AddBook = () => {
                     />
                     <Input type='search' placeholder='Buscar livro' />
                 </InputGroup>
-            </Wrapper>
-        </Flex>
+            </>
+        </Layout>
     );
 }
 

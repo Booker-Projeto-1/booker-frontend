@@ -1,7 +1,9 @@
-import { Box, IconButton, Logo } from './style';
-import { HamburgerIcon } from '@chakra-ui/icons';
-import { Drawer, DrawerBody, DrawerHeader, DrawerCloseButton, useDisclosure, DrawerOverlay, DrawerContent, DrawerFooter, Input, Button } from '@chakra-ui/react';
 import React from 'react';
+import { Drawer, useDisclosure, DrawerOverlay, Text } from '@chakra-ui/react';
+import { HamburgerIcon } from '@chakra-ui/icons';
+import Sidebar from '../Sidebar';
+import Logo from '../Logo';
+import { Box, IconButton, DrawerBody, DrawerCloseButton, DrawerContent } from './style';
 
 const Header = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -11,9 +13,7 @@ const Header = () => {
         <>
             <Box>
                 <IconButton ref={btnRef} isRound icon={<HamburgerIcon color="black" />} onClick={onOpen}/>
-                <Logo>
-                    BOOKER
-                </Logo>
+                <Logo flex="1" />
             </Box>
             <Drawer
                 isOpen={isOpen}
@@ -21,22 +21,13 @@ const Header = () => {
                 onClose={onClose}
                 finalFocusRef={btnRef}
             >
-            <DrawerOverlay />
-            <DrawerContent>
-                <DrawerCloseButton />
-                <DrawerHeader>Create your account</DrawerHeader>
-
-                <DrawerBody>
-                <Input placeholder='Type here...' />
-                </DrawerBody>
-
-                <DrawerFooter>
-                <Button variant='outline' mr={3} onClick={onClose}>
-                    Cancel
-                </Button>
-                <Button colorScheme='blue'>Save</Button>
-                </DrawerFooter>
-            </DrawerContent>
+                <DrawerOverlay />
+                <DrawerContent>
+                    <DrawerCloseButton />
+                    <DrawerBody>
+                        <Sidebar />
+                    </DrawerBody>
+                </DrawerContent>
             </Drawer>
         </>
     );
