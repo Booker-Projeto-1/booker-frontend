@@ -51,7 +51,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
     setUser(user);
-    Router.push("/decks");
+    Router.push("/");
   }
 
   async function signOut() {
