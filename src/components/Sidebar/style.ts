@@ -8,7 +8,7 @@ export const Wrapper = styled(Box)`
     justify-content: start;
     height: 100%;
     width: 100%;
-    gap: 0.5rem;
+    gap: 1rem;
 `;
 
 export const SidebarButton = styled(Button)`
