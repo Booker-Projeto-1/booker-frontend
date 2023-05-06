@@ -4,12 +4,6 @@ const googleBooksApi = axios.create({
     baseURL: "https://www.googleapis.com/books/v1",
 });
 
-type Params = {
-    q: string,
-    orderBy: string,
-    key: string
-};
-
 const googleBooksService = {
     searchBooks: async (query: string) => {
         const queryParams = new URLSearchParams({ 'q': query });
@@ -23,8 +17,15 @@ const googleBooksService = {
         } catch (res: any) {
             return Promise.reject(res.data);
         }
+    },
 
-        // const queryParams = new URLSearchParams(params).toString()
+    getBookById: async (id: string) => {
+        try {
+            const response = await googleBooksApi.get(`/volumes/${id}`);
+            return Promise.resolve(response.data);
+        } catch (res: any) {
+            return Promise.reject(res.data);
+        }
     }
 };
 

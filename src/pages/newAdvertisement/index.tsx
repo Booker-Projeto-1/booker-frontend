@@ -7,15 +7,14 @@ import Layout from "@/components/Layout";
 import googleBooksService from '@/services/googleBooksService';
 
 import { InputGroup, Input, BookInfoBox, CardBody, Image, CardsWrapper } from './style';
-import BookModal from '@/components/BookModal';
+import BookModal from '@/components/NewAdvertisementModal';
 
-// TO DO: COLOCAR INPUT DE DESCRIÇÃO
-const AddBook = () => {
+const NewAdvertisement = () => {
     const [data, setData] = useState<Books>([]);
     const [isLoading, setLoading] = useState(false);
     const [query, setQuery] = useState("");
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedBook, setSelectedBook] = useState<Book>({ title: "", authors: [], publisher: "", description: "", imageLink: ""});
+    const [selectedBook, setSelectedBook] = useState<Book>({ id: "", title: "", authors: [], publisher: "", description: "", imageLink: ""});
 
     useEffect(() => {
         if (query) {
@@ -23,7 +22,8 @@ const AddBook = () => {
                 setLoading(true);
                 googleBooksService.searchBooks(query).then((res) => {
                     if (res.items) {
-                        const responseData = res.items.map(({ volumeInfo }: any) => ({
+                        const responseData = res.items.map(({ id, volumeInfo }: any) => ({
+                            id,
                             title: volumeInfo.title,
                             authors: volumeInfo.authors,
                             description: volumeInfo.description,
@@ -43,7 +43,7 @@ const AddBook = () => {
         }
      
         return () => {}
-      }, [query]);
+    }, [query]);
  
     const handleSearchInputChange = (value: string) => {
         setQuery(value);
@@ -51,7 +51,7 @@ const AddBook = () => {
 
     const handleClickCard = (book: Book) => {
         setIsModalOpen(true);
-        setSelectedBook(book)
+        setSelectedBook(book);
     }
 
     return (
@@ -69,23 +69,27 @@ const AddBook = () => {
                         isLoading ? 
                             <Spinner />
                         :
+                        data.length ? (
                             <>
                                 {data.map((book) => (
-                                    <Card cursor="pointer" w="10rem" h="12rem" onClick={() => handleClickCard(book)}>
+                                    <Card key={book.id} cursor="pointer" w="10rem" h="12rem" onClick={() => handleClickCard(book)}>
                                         <CardBody>
                                             <Image
                                                 src={book.imageLink || "book-default.png"}
                                                 alt={book.title}
                                             />
                                             <BookInfoBox>
-                                                <Text fontSize="12px" fontWeight="bold">{book.title}</Text>
-                                                <Text fontSize="12px">{book.authors && book.authors.join(", ")}</Text>
+                                                <Text fontSize="12px" fontWeight="bold">{book.title.substring(0, 50)}</Text>
+                                                <Text fontSize="12px">{book.authors && book.authors.join(", ").substring(0, 50)}</Text>
                                             </BookInfoBox>
                                         </CardBody>
                                     </Card>
                                 ))}
                                 <BookModal isOpen={isModalOpen} onCloseFunction={() => setIsModalOpen(false)} book={selectedBook}/>
                             </>
+                        ) : (
+                            <Text>Pesquise um livro para adicionar ao anúncio</Text>
+                        )
                     }
                 </CardsWrapper>
             </>
@@ -93,4 +97,4 @@ const AddBook = () => {
     );
 }
 
-export default AddBook
+export default NewAdvertisement

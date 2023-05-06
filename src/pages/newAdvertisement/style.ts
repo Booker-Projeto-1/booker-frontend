@@ -48,8 +48,10 @@ export const Image = styled(ImageChakra)`
 
 export const CardsWrapper = styled(Box)`
     width: 100%;
+    height: 100%;
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
     justify-content: center;
+    align-items: center;
 `;
