@@ -5,6 +5,12 @@ type SignInRequestData = {
   password: string;
 };
 
+type SignUpRequestData = {
+  name: string;
+  email: string;
+  password: string;
+};
+
 export async function signInRequest(data: SignInRequestData) {
   const { email, password } = data;
   const response = await api.post("/login", {
@@ -19,6 +25,16 @@ export async function recoverUserInformation(token: string) {
     headers: {
       Authorization: `Bearer ${token}`,
     },
+  });
+  return response.data;
+}
+
+export async function signUpRequest(data: SignUpRequestData) {
+  const { name, email, password } = data;
+  const response = await api.post("/user", {
+    name,
+    email,
+    password,
   });
   return response.data;
 }
