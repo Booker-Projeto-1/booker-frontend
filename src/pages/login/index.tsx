@@ -1,35 +1,29 @@
+import Logo from "@/components/Logo";
 import { AuthContext } from "@/context/AuthContext";
 import { getAPIClient } from "@/services/axios";
 import { GetServerSideProps, NextPage } from "next";
 import Link from "next/link";
 import { parseCookies } from "nookies";
 import { useContext } from "react";
-import {
-  Button,
-  Container,
-  Form,
-  Input,
-  InputContainer,
-  Logo,
-  LogoContainer,
-} from "./styles";
+import { isMobile } from "react-device-detect";
+
+import { Button, Container, Form, Input, InputContainer } from "./styles";
 
 const Login: NextPage = () => {
   const { signIn } = useContext(AuthContext);
 
-  const handleSubmit = async (data: any) => {
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    const data = {
+      email: e.target.email.value,
+      password: e.target.password.value,
+    };
     await signIn(data);
   };
 
   return (
     <Container>
-      <LogoContainer>
-        <Logo />
-        <strong>
-          <h1>BOOKER</h1>
-        </strong>
-      </LogoContainer>
-
+      <Logo showName={!isMobile} />
       <Form onSubmit={handleSubmit}>
         <strong>
           <h1>Fazer Login</h1>

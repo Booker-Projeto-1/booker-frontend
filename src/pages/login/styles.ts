@@ -8,44 +8,15 @@ export const Container = styled.div`
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  padding: 5rem 0;
+  gap: 2rem;
   @media (max-width: 500px) {
     height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-  }
-`;
-
-export const LogoContainer = styled.div`
-  width: 8rem;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  text-align: center;
-  margin-top: 2rem;
-
-  @media (max-width: 500px) {
-    h1 {
-      display: none;
-      margin-top: 5rem;
-    }
-  }
-`;
-
-export const Logo = styled.div`
-  height: 50px;
-  width: 50px;
-  background-color: ${(props) => props.theme.palette.darker.main};
-  border-radius: 100%;
-  @media (max-width: 500px) {
-    height: 150px;
-    width: 150px;
-    background-color: ${(props) => props.theme.palette.darker.main};
-    border-radius: 100%;
-    padding: 5rem;
-    margin: 5rem 0;
+    padding-bottom: 0;
   }
 `;
 
@@ -58,11 +29,11 @@ export const Form = styled.form`
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  margin: auto;
   padding: 2rem 20px;
   background-color: ${(props) => props.theme.palette.secondary.main};
   border-radius: 30px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+
   */ h1 {
     margin-bottom: 20px;
     color: ${(props) => props.theme.palette.primary.contrastText};
@@ -78,6 +49,7 @@ export const Form = styled.form`
     width: 100%;
     max-width: 600px;
     height: 100%;
+    border-radius: 30px 30px 0 0;
   }
 `;
 
