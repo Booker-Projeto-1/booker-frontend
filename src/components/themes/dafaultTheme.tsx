@@ -3,8 +3,8 @@ import { DefaultTheme } from "styled-components";
 export const defaultTheme: DefaultTheme = {
   name: "default",
   borderRadius: "4px",
-  bodyColor: "#000",
-  textColor: "#fff",
+  bodyColor: "#B2B1B1",
+  textColor: "#697077",
   palette: {
     common: {
       black: "#121212",
