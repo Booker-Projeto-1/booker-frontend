@@ -4,7 +4,7 @@ export const defaultTheme: DefaultTheme = {
   name: "default",
   borderRadius: "4px",
   bodyColor: "#B2B1B1",
-  textColor: "#fff",
+  textColor: "#697077",
   palette: {
     common: {
       black: "#121212",
