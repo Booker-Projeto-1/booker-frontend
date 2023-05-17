@@ -3,7 +3,8 @@ import { destroyCookie, parseCookies, setCookie } from "nookies";
 import { ReactNode, createContext, useEffect, useState } from "react";
 
 import { api } from "../services/api";
-import { recoverUserInformation, signInRequest } from "../services/auth";
+import { recoverUserInformation, signInRequest, signUpRequest } from "../services/auth";
+import { type } from "os";
 
 type User = {
   name: string;
@@ -11,6 +12,12 @@ type User = {
   id: string;
   createdAt: string;
 } | null;
+
+type SignUpData = {
+  name: string;
+  email: string;
+  password: string;
+};
 
 type SignInData = {
   email: string;
@@ -22,6 +29,7 @@ type AuthContextType = {
   user: User;
   signIn: (data: SignInData) => Promise<void>;
   signOut: () => void;
+  signUp: (data: SignUpData) => Promise<void>;
 };
 
 export const AuthContext = createContext({} as AuthContextType);
@@ -60,8 +68,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     Router.push("/");
   }
 
+  async function signUp({ name, email, password }: SignUpData) {
+    const res = await signUpRequest({ name, email, password });
+    signIn({ email, password });
+  }
+
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, signIn, signOut }}>
+    <AuthContext.Provider value={{ user, isAuthenticated, signIn, signOut, signUp }}>
       {children}
     </AuthContext.Provider>
   );
