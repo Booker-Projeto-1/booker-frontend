@@ -31,7 +31,7 @@ export async function recoverUserInformation(token: string) {
 
 export async function signUpRequest(data: SignUpRequestData) {
   const { name, email, password } = data;
-  const response = await api.post("/user", {
+  const response = await api.post("/signin", {
     name,
     email,
     password,

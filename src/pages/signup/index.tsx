@@ -1,7 +1,7 @@
 import { AuthContext } from "@/context/AuthContext";
 import { GetServerSideProps, NextPage } from "next";
 import { useContext, useState } from "react";
-import { Button, Container, Form, Input, InputContainer, FormHelperText, Logo, LogoContainer, FormErrorMessage, FormLabel } from "./styles";
+import { Button, Container, Form, Input, InputContainer, Logo, LogoContainer, FormErrorMessage, FormLabel } from "./styles";
 import { getAPIClient } from "@/services/axios";
 import { parseCookies } from "nookies";
 import Link from "next/link";
@@ -9,7 +9,16 @@ import Link from "next/link";
 const SignUp: NextPage = () => {
   const { signUp } = useContext(AuthContext);
 
-  const handleSubmit = async (data: any) => {
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    const data = {
+      name: e.target.name.value,
+      lastname: e.target.lastname.value,
+      email: e.target.email.value,
+      password: e.target.password.value,
+      phone: e.target.phone.value,
+    };
+    console.log(data);
     await signUp(data);
   };
 
@@ -58,7 +67,7 @@ const SignUp: NextPage = () => {
       <Form onSubmit={handleSubmit}>
         <FormLabel>Fazer Cadastro</FormLabel>
         <InputContainer isInvalid={isErrorName}>
-          <Input placeHolder="Nome" type="text" value={name} onChange={handleNameChange} />
+          <Input name="name" placeholder="Nome" type="text" value={name} onChange={handleNameChange} />
           {!isErrorName ? (
             null
           ) : (
@@ -66,7 +75,7 @@ const SignUp: NextPage = () => {
           )}
         </InputContainer>
         <InputContainer isRequired isInvalid={isErrorLastname}>
-          <Input placeHolder="Sobrenome" type="text" value={lastname} onChange={handleLastnameChange} />
+          <Input name="lastname" placeholder="Sobrenome" type="text" value={lastname} onChange={handleLastnameChange} />
           {!isErrorLastname ? (
             null
           ) : (
@@ -74,7 +83,7 @@ const SignUp: NextPage = () => {
           )}
         </InputContainer>
         <InputContainer isRequired isInvalid={isErrorEmail}>
-          <Input placeHolder="Email" type="email" value={email} onChange={handleEmailChange} />
+          <Input name="email" placeholder="Email" type="email" value={email} onChange={handleEmailChange} />
           {!isErrorEmail ? (
             null
           ) : (
@@ -82,7 +91,7 @@ const SignUp: NextPage = () => {
           )}
         </InputContainer>
         <InputContainer isRequired isInvalid={isErrorPassword}>
-          <Input placeHolder="Senha" type="password" value={password} onChange={handlePasswordChange} />
+          <Input name="password" placeholder="Senha" type="password" value={password} onChange={handlePasswordChange} />
           {!isErrorPassword ? (
             null
           ) : (
@@ -90,7 +99,7 @@ const SignUp: NextPage = () => {
           )}
         </InputContainer>
         <InputContainer isRequired isInvalid={isErrorPhone}>
-          <Input placeHolder="Telefone" type="text" value={phone} onChange={handlePhoneChange} />
+          <Input name="phone" placeholder="Telefone" type="text" value={phone} onChange={handlePhoneChange} />
           {!isErrorPhone ? (
             null
           ) : (
