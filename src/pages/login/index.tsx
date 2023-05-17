@@ -35,7 +35,7 @@ const Login: NextPage = () => {
         </InputContainer>
         <p>
           Não tem conta?{" "}
-          <Link href={"/siginup"}>
+          <Link href={"/signup"}>
             <strong>Registre-se</strong>
           </Link>
         </p>
