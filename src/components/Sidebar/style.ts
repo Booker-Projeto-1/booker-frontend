@@ -13,11 +13,11 @@ export const Wrapper = styled(Box)`
 
 export const SidebarButton = styled(Button)`
     border-radius: 0 !important;
-    border: 1px solid #F2F4F8 !important;
-    background-color: #fff !important;
+    border: 1px solid ${(props) => props.theme.palette.primary.main} !important;
+    background-color: ${(props) => props.theme.palette.common.white} !important;
     justify-content: start !important;
     &:hover {
-        background-color: #F2F4F8 !important;
+        background-color: ${(props) => props.theme.palette.primary.main} !important;
     }
 `;
 

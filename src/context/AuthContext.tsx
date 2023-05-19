@@ -44,6 +44,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       recoverUserInformation(token).then((response: any) => {
         setUser(response.user);
       });
+    } else {
+      Router.push("/login");
     }
   }, []);
 
@@ -65,12 +67,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   async function signOut() {
     setUser(null);
     destroyCookie(undefined, "nextauth.token");
-    Router.push("/");
+    Router.push("/login");
   }
 
   async function signUp({ name, email, password }: SignUpData) {
     const res = await signUpRequest({ name, email, password });
-    signIn({ email, password });
+    Router.push("/login");
   }
 
   return (

@@ -18,8 +18,11 @@ const SignUp: NextPage = () => {
       password: e.target.password.value,
       phone: e.target.phone.value,
     };
-    console.log(data);
-    await signUp(data);
+    try {
+      await signUp(data);
+    } catch (error) {
+      console.log(error)
+    }
   };
 
   const [name, setName] = useState('')
