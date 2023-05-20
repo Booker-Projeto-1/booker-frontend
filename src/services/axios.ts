@@ -9,7 +9,7 @@ export function getAPIClient(ctx?: any): AxiosInstance {
   });
 
   if (token) {
-    api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    api.defaults.headers.common["Authorization"] = `${token}`;
   }
 
   return api;

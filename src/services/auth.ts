@@ -21,12 +21,18 @@ export async function signInRequest(data: SignInRequestData) {
 }
 
 export async function recoverUserInformation(token: string) {
-  const response = await api.get("/me", {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  return response.data;
+  // const response = await api.get("/me", {
+  //   headers: {
+  //     Authorization: `Bearer ${token}`,
+  //   },
+  // });
+  const user = {
+    name: "default",
+    email: "estevao.ferreira@gmail.com",
+    id: "1",
+    createdAt: "13/03/2022"
+  }
+  return user;
 }
 
 export async function signUpRequest(data: SignUpRequestData) {

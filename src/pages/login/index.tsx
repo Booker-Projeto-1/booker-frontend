@@ -8,9 +8,12 @@ import { useContext } from "react";
 import { isMobile } from "react-device-detect";
 
 import { Button, Container, Form, Input, InputContainer } from "./styles";
+import { useToast } from "@chakra-ui/react";
 
 const Login: NextPage = () => {
   const { signIn } = useContext(AuthContext);
+
+  const toast = useToast();
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -18,7 +21,11 @@ const Login: NextPage = () => {
       email: e.target.email.value,
       password: e.target.password.value,
     };
-    await signIn(data);
+    await signIn(data).catch(() => toast({
+      title: "Erro no login",
+      status: 'error',
+      isClosable: true,
+    }));
   };
 
   return (

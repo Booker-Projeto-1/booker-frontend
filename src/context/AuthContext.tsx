@@ -44,6 +44,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       recoverUserInformation(token).then((response: any) => {
         setUser(response.user);
       });
+    } else {
+      Router.push("/login");
     }
   }, []);
 
@@ -56,21 +58,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setCookie(undefined, "nextauth.token", token, {
       maxAge: 60 * 60 * 6, // 6 hours
     });
-    api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    api.defaults.headers.common["Authorization"] = `${token}`;
 
     setUser(user);
-    Router.push("/");
+    Router.push("/newAdvertisement");
   }
 
   async function signOut() {
     setUser(null);
     destroyCookie(undefined, "nextauth.token");
-    Router.push("/");
+    Router.push("/login");
   }
 
   async function signUp({ name, email, password }: SignUpData) {
     const res = await signUpRequest({ name, email, password });
-    signIn({ email, password });
+    Router.push("/login");
   }
 
   return (

@@ -8,7 +8,7 @@ export const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  overflow: scroll;
+  overflow: auto;
 
   @media (max-width: 300px) {
     height: 100vh;
@@ -90,14 +90,14 @@ export const Form = styled.form`
 `;
 
 export const Input = styled(UInput)`
-  width: 100%;
-  height: 48px;
-  margin-bottom: 10px;
-  padding: 0 20px;
-  border-radius: 30px;
-  border: 1px solid ${(props) => props.theme.palette.secondary.main};
-  background-color: ${(props) => props.theme.palette.common.white};
-  color: ${(props) => props.theme.textColor};
+  width: 100% !important;
+  height: 48px !important;
+  /* margin-bottom: 10px !important; */
+  padding: 0 20px !important;
+  border-radius: 30px !important;
+  border: 1px solid ${(props) => props.theme.palette.secondary.main} !important;
+  background-color: ${(props) => props.theme.palette.common.white} !important;
+  color: ${(props) => props.theme.textColor} !important;
 
   &::placeholder {
     color: ${(props) => props.theme.textColor};
@@ -121,20 +121,20 @@ export const Button = styled.button`
 `;
 
 export const FormHelperText = styled(FH)`
-  color: black;
+  color: black !important;
 `;
 
 export const FormErrorMessage = styled(FE)`
-  color: red;
+  color: red !important;
 `;
 
 export const InputContainer = styled(FC)`
-  width: 100%;
-  height: 5rem;
-  display: flex;
-  flex-direction: column;
-  align-items: space-between;
-  justify-content: space-between;
+  width: 100% !important;
+  height: 5rem !important;
+  display: flex !important;
+  flex-direction: column !important;
+  /* align-items: space-between !important;
+  justify-content: space-between !important; */
 `;
 
 
