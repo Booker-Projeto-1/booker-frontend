@@ -7,8 +7,10 @@ type SignInRequestData = {
 
 type SignUpRequestData = {
   name: string;
+  lastname: string;
   email: string;
   password: string;
+  phone: string;
 };
 
 export async function signInRequest(data: SignInRequestData) {
@@ -36,11 +38,13 @@ export async function recoverUserInformation(token: string) {
 }
 
 export async function signUpRequest(data: SignUpRequestData) {
-  const { name, email, password } = data;
+  const { name, lastname, email, password, phone } = data;
   const response = await api.post("/signin", {
-    name,
+    firstName: name,
+    lastName: lastname,
     email,
     password,
+    phoneNumber: phone,
   });
   return response.data;
 }

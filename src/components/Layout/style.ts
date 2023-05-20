@@ -6,9 +6,14 @@ export const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    background-color: #B2B1B1;
     min-height: 100vh;
     align-items: center;
+
+    h1 {
+        color: ${(props) => props.theme.palette.darker.main};
+        font-weight: bold;
+        font-size: 1.5rem;
+    }
 `;
 
 export const SidebarContainer = styled.div`

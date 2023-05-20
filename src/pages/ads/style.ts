@@ -53,5 +53,4 @@ export const CardsWrapper = styled(Box)`
     flex-wrap: wrap;
     gap: 1rem;
     justify-content: center;
-    /* align-items: center; */
 `;

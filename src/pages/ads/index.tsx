@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { InputLeftElement, Text, Card, Spinner, useToast } from '@chakra-ui/react';
+import { InputLeftElement, Text, Card, Spinner, useToast, Button, Flex } from '@chakra-ui/react';
 import { Search2Icon } from '@chakra-ui/icons';
 import { getAds } from '@/services/advertisement';
 
@@ -9,6 +9,8 @@ import Layout from "@/components/Layout";
 import { InputGroup, Input, BookInfoBox, CardBody, Image, CardsWrapper } from './style';
 import AdModal from '@/components/AdModal';
 import googleBooksService from '@/services/googleBooksService';
+
+import Router from 'next/router';
 
 const defaultBook = { id: "", title: "", authors: [], publisher: "", description: "", imageLink: "" }
 const Ads = () => {
@@ -38,7 +40,10 @@ const Ads = () => {
    
                     const resultAd = { ...ad, book }
                     return resultAd
-                })).then((values) => setData(values))
+                })).then((values) => {
+                    setData(values);
+                    setLoading(false);
+                })
             })
             .catch(() => toast({
                 title: "Erro ao carregar anúncios",
@@ -46,7 +51,6 @@ const Ads = () => {
                 isClosable: true,
               }));
         
-        setLoading(false);
 
     }, []);
 
@@ -56,15 +60,26 @@ const Ads = () => {
     }
 
     return (
-        <Layout>
+        <Layout title='Anúncios'>
             <>
-                <InputGroup>
-                    <InputLeftElement
-                        pointerEvents='none'
-                        children={<Search2Icon color='gray.300' />}
-                    />
-                    <Input type='search' placeholder='Buscar anúncio' value={query} onChange={(e: any) => console.log(e)}/>
-                </InputGroup>
+                <Flex w="100%" gap="2rem" justifyContent="center">
+                    <InputGroup>
+                        <InputLeftElement
+                            pointerEvents='none'
+                            children={<Search2Icon color='gray.300' />}
+                            />
+                        <Input type='search' placeholder='Buscar anúncio' value={query} onChange={(e: any) => console.log(e)}/>
+                    </InputGroup>
+                    <Button
+                        padding="1rem"
+                        backgroundColor="#5D5D5D"
+                        color="white"
+                        onClick={() => Router.push('/newAdvertisement')}
+                        _hover={{ opacity: 0.6 }}
+                    >
+                        Criar anúncio
+                    </Button>
+                </Flex>
                 <CardsWrapper>
                     {
                         isLoading ? 
@@ -89,7 +104,7 @@ const Ads = () => {
                                 <AdModal isOpen={isModalOpen} onCloseFunction={() => setIsModalOpen(false)} ad={selectedAd}/>
                             </>
                         ) : (
-                            <Text>Pesquise um livro para adicionar ao anúncio</Text>
+                            <Text>Nenhum anúncio cadastrado</Text>
                         )
                     }
                 </CardsWrapper>

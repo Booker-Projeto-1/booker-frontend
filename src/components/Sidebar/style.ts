@@ -13,7 +13,7 @@ export const Wrapper = styled(Box)`
 
 export const SidebarButton = styled(Button)`
     border-radius: 0 !important;
-    border: 1px solid ${(props) => props.theme.palette.primary.main} !important;
+    border-bottom: 0.5px solid ${(props) => props.theme.palette.primary.main} !important;
     background-color: ${(props) => props.theme.palette.common.white} !important;
     justify-content: start !important;
     &:hover {
@@ -25,7 +25,7 @@ export const SidebarButtonGroup = styled(Box)`
     display: flex;
     flex-direction: column;
     width: 100%;
-    .sidebarbutton + .sidebarbutton {
-        border-top: none !important;    
-    }
+    /* .sidebarbutton + .sidebarbutton {
+        border-bottom: none !important;    
+    } */
 `;

@@ -4,6 +4,7 @@ import { useContext, useState } from "react";
 import { Button, Container, Form, Input, InputContainer, Logo, LogoContainer, FormErrorMessage, FormLabel } from "./styles";
 import { getAPIClient } from "@/services/axios";
 import { parseCookies } from "nookies";
+import { useEffect } from 'react';
 import Link from "next/link";
 
 const SignUp: NextPage = () => {
@@ -30,33 +31,63 @@ const SignUp: NextPage = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [phone, setPhone] = useState('')
+  
+  const [isErrorName, setIsErrorName] = useState(false);
+  const [isErrorLastname, setIsErrorLastname] = useState(false);
+  const [isErrorEmail, setIsErrorEmail] = useState(false);
+  const [isErrorPassword, setIsErrorPassword] = useState(false);
+  const [isErrorPhone, setIsErrorPhone] = useState(false);
+  const [isError, setIsError] = useState(false);
 
   const handleNameChange = (e: any) => {
+    if (!e.target.value) {
+      setIsErrorName(true)
+    } else if (e.target.value && isErrorName) {
+      setIsErrorName(false)
+    }
     setName(e.target.value)
   }
 
   const handleLastnameChange = (e: any) => {
+    if (!e.target.value) {
+      setIsErrorLastname(true)
+    } else if (e.target.value && isErrorLastname) {
+      setIsErrorLastname(false)
+    }
     setLastname(e.target.value)
   }
 
   const handleEmailChange = (e: any) => {
+    if (!e.target.value) {
+      setIsErrorEmail(true)
+    } else if (e.target.value && isErrorEmail) {
+      setIsErrorEmail(false)
+    }
     setEmail(e.target.value)
   }
 
   const handlePasswordChange = (e: any) => {
+    if (!e.target.value) {
+      setIsErrorPassword(true)
+    } else if (e.target.value && isErrorPassword) {
+      setIsErrorPassword(false)
+    }
     setPassword(e.target.value)
   }
 
   const handlePhoneChange = (e: any) => {
+    if (!e.target.value) {
+      setIsErrorPhone(true)
+    } else if (e.target.value && isErrorPhone) {
+      setIsErrorPhone(false)
+    }    
     setPhone(e.target.value)
   }
 
-  const isErrorName = name === '';
-  const isErrorLastname = lastname === '';
-  const isErrorEmail = email === '';
-  const isErrorPassword = password === '';
-  const isErrorPhone = phone === '';
-  const isError = isErrorName || isErrorLastname || isErrorEmail || isErrorPassword || isErrorPhone;
+  useEffect(()=> {
+    setIsError(isErrorName || isErrorLastname || isErrorEmail || isErrorPassword || isErrorPhone)
+  }, [isErrorName, isErrorLastname, isErrorEmail, isErrorPassword, isErrorPhone]);
+  // const [isErrorPhone, setIsErrorPhone] = useState(false);
 
 
   return (
