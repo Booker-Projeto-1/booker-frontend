@@ -67,6 +67,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   async function signOut() {
     setUser(null);
     destroyCookie(undefined, "nextauth.token");
+    api.defaults.headers.common["Authorization"] = '';
     Router.push("/login");
   }
 
