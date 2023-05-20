@@ -27,12 +27,13 @@ export async function recoverUserInformation(token: string) {
   //   },
   // });
   const user = {
-    name: "default",
-    email: "estevao.ferreira@gmail.com",
-    id: "1",
-    createdAt: "13/03/2022"
+    name: "John",
+    email: "oi@gmail.com",
+    lastname: "Doe",
+    phone: "123456789",
+    password: "123456",
   }
-  return user;
+  return Promise.resolve(user);
 }
 
 export async function signUpRequest(data: SignUpRequestData) {

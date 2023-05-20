@@ -4,6 +4,7 @@ import { BsHouse, BsBook, BsPerson, BsBoxArrowRight } from 'react-icons/bs';
 import Logo from "../Logo";
 import { useContext } from "react";
 import { AuthContext } from "@/context/AuthContext";
+import Router  from "next/router";
 
 const Sidebar = () => {
     const { signOut } = useContext(AuthContext);
@@ -14,7 +15,7 @@ const Sidebar = () => {
             <SidebarButtonGroup>
                 <SidebarButton className="sidebarbutton" leftIcon={<Icon as={BsHouse}/>}>Anúncios</SidebarButton>
                 <SidebarButton className="sidebarbutton" leftIcon={<Icon as={BsBook}/>}>Meus Anúncios</SidebarButton>
-                <SidebarButton className="sidebarbutton" leftIcon={<Icon as={BsPerson}/>}>Meu Perfil</SidebarButton>
+                <SidebarButton className="sidebarbutton" leftIcon={<Icon as={BsPerson}/>} onClick={() => Router.push("/me")} >Meu Perfil</SidebarButton>
                 <SidebarButton className="sidebarbutton" leftIcon={<Icon as={BsBoxArrowRight}/>} onClick={() => signOut()}>Sair</SidebarButton>
             </SidebarButtonGroup>
         </Wrapper>
