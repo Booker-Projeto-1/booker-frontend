@@ -9,123 +9,76 @@ import Link from "next/link";
 const SignUp: NextPage = () => {
   const { signUp } = useContext(AuthContext);
 
-  const handleSubmit = async (e: any) => {
+  const [formData, setFormData] = useState({
+    name: "",
+    lastname: "",
+    email: "",
+    password: "",
+    phone: "",
+  });
+
+  const { name, lastname, email, password, phone } = formData;
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const data = {
-      name: e.target.name.value,
-      lastname: e.target.lastname.value,
-      email: e.target.email.value,
-      password: e.target.password.value,
-      phone: e.target.phone.value,
-    };
     try {
-      await signUp(data);
+      await signUp(formData);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
 
-  const [name, setName] = useState('')
-  const [lastname, setLastname] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [phone, setPhone] = useState('')
-
-  const handleNameChange = (e: any) => {
-    setName(e.target.value)
-  }
-
-  const handleLastnameChange = (e: any) => {
-    setLastname(e.target.value)
-  }
-
-  const handleEmailChange = (e: any) => {
-    setEmail(e.target.value)
-  }
-
-  const handlePasswordChange = (e: any) => {
-    setPassword(e.target.value)
-  }
-
-  const handlePhoneChange = (e: any) => {
-    setPhone(e.target.value)
-  }
-
-  const isErrorName = name === '';
-  const isErrorLastname = lastname === '';
-  const isErrorEmail = email === '';
-  const isErrorPassword = password === '';
-  const isErrorPhone = phone === '';
+  const isErrorName = name === "";
+  const isErrorLastname = lastname === "";
+  const isErrorEmail = email === "";
+  const isErrorPassword = password === "";
+  const isErrorPhone = phone === "";
   const isError = isErrorName || isErrorLastname || isErrorEmail || isErrorPassword || isErrorPhone;
-
 
   return (
     <Container>
-      <LogoContainer>
-        <Logo />
-        <strong>
-          <h1>BOOKER</h1>
-        </strong>
-      </LogoContainer>
       <Form onSubmit={handleSubmit}>
         <FormLabel>Fazer Cadastro</FormLabel>
         <InputContainer isInvalid={isErrorName}>
-          <Input name="name" placeholder="Nome" type="text" value={name} onChange={handleNameChange} />
-          {!isErrorName ? (
-            null
-          ) : (
-            <FormErrorMessage>Nome é obrigatório.</FormErrorMessage>
-          )}
+          <Input name="name" placeholder="Nome" type="text" value={name} onChange={handleChange} />
+          {isErrorName && <FormErrorMessage>Nome é obrigatório.</FormErrorMessage>}
         </InputContainer>
         <InputContainer isRequired isInvalid={isErrorLastname}>
-          <Input name="lastname" placeholder="Sobrenome" type="text" value={lastname} onChange={handleLastnameChange} />
-          {!isErrorLastname ? (
-            null
-          ) : (
-            <FormErrorMessage>Sobrenome é obrigatório.</FormErrorMessage>
-          )}
+          <Input name="lastname" placeholder="Sobrenome" type="text" value={lastname} onChange={handleChange} />
+          {isErrorLastname && <FormErrorMessage>Sobrenome é obrigatório.</FormErrorMessage>}
         </InputContainer>
         <InputContainer isRequired isInvalid={isErrorEmail}>
-          <Input name="email" placeholder="Email" type="email" value={email} onChange={handleEmailChange} />
-          {!isErrorEmail ? (
-            null
-          ) : (
-            <FormErrorMessage>Email é obrigatório.</FormErrorMessage>
-          )}
+          <Input name="email" placeholder="Email" type="email" value={email} onChange={handleChange} />
+          {isErrorEmail && <FormErrorMessage>Email é obrigatório.</FormErrorMessage>}
         </InputContainer>
         <InputContainer isRequired isInvalid={isErrorPassword}>
-          <Input name="password" placeholder="Senha" type="password" value={password} onChange={handlePasswordChange} />
-          {!isErrorPassword ? (
-            null
-          ) : (
-            <FormErrorMessage>Senha é obrigatório.</FormErrorMessage>
-          )}
+          <Input name="password" placeholder="Senha" type="password" value={password} onChange={handleChange} />
+          {isErrorPassword && <FormErrorMessage>Senha é obrigatório.</FormErrorMessage>}
         </InputContainer>
         <InputContainer isRequired isInvalid={isErrorPhone}>
-          <Input name="phone" placeholder="Telefone" type="text" value={phone} onChange={handlePhoneChange} />
-          {!isErrorPhone ? (
-            null
-          ) : (
-            <FormErrorMessage>Telefone é obrigatório.</FormErrorMessage>
-          )}
+          <Input name="phone" placeholder="Telefone" type="text" value={phone} onChange={handleChange} />
+          {isErrorPhone && <FormErrorMessage>Telefone é obrigatório.</FormErrorMessage>}
         </InputContainer>
         <Button type="submit" disabled={isError}>
           Cadastrar
         </Button>
-        {!isError ? (
-          null
-        ) : (
-          <FormErrorMessage>Por favor, preencha todos os campos.</FormErrorMessage>
-        )}
+        {isError && <FormErrorMessage>Por favor, preencha todos os campos.</FormErrorMessage>}
         <p>
           Possui uma conta?{" "}
-          <Link href={"/login"}>
+          <Link href="/login">
             <strong>Entre</strong>
           </Link>
         </p>
       </Form>
     </Container>
-  )
+  );
 }
 
 export default SignUp;
