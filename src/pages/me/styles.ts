@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { FormLabel as FL, Input as UInput, FormControl as FC, FormErrorMessage as FE, FormHelperText as FH } from "@chakra-ui/react";
 import { Form } from "../login/styles";
 
@@ -72,7 +72,15 @@ export const Input = styled(UInput)`
   &::placeholder {
     color: ${(props) => props.theme.palette.darker.main}!important;
   }
+
+  ${(props) =>
+    props.disabled &&
+    css`
+      background-color: ${(props) => props.theme.palette.common}!important;
+      cursor: not-allowed;
+    `}
 `;
+
 
 export const FormControl = styled(FC)`
   margin-bottom: 1rem;
