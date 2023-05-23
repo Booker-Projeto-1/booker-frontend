@@ -11,22 +11,22 @@ const Me: NextPage = () => {
   const { user } = useContext(AuthContext);
   const toast = useToast();
 
-  const [name, setName] = useState(user?.name || "");
-  const [lastname, setLastname] = useState(user?.lastname || "");
+  const [firstName, setFirstName] = useState(user?.firstName || "");
+  const [lastName, setlastName] = useState(user?.lastName || "");
   const [email] = useState(user?.email || "");
-  const [phone, setPhone] = useState(user?.phone || "");
+  const [phoneNumber, setPhoneNumber] = useState(user?.phoneNumber || "");
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     switch (name) {
-      case "name":
-        setName(value);
+      case "firstName":
+        setFirstName(value);
         break;
-      case "lastname":
-        setLastname(value);
+      case "lastName":
+        setlastName(value);
         break;
-      case "phone":
-        setPhone(value);
+      case "phoneNumber":
+        setPhoneNumber(value);
         break;
       default:
         break;
@@ -34,7 +34,7 @@ const Me: NextPage = () => {
   };
 
   const validateForm = () => {
-    return name !== "" && lastname !== "" && phone !== "";
+    return firstName !== "" && lastName !== "" && phoneNumber !== "";
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -53,9 +53,9 @@ const Me: NextPage = () => {
 
     try {
       const response = await getAPIClient().put("/users", {
-        name,
-        lastname,
-        phone,
+        firstName,
+        lastName,
+        phoneNumber,
       });
       toast({
         title: "Sucesso",
@@ -81,24 +81,24 @@ const Me: NextPage = () => {
         <FormContainer onSubmit={handleSubmit}>
           <FormTitle>Informações do usuário</FormTitle>
           <InputContainer>
-            <FormLabel htmlFor="name">Nome</FormLabel>
+            <FormLabel htmlFor="firstName">Nome</FormLabel>
             <Input
               type="text"
-              name="name"
-              id="name"
+              name="firstName"
+              id="firstName"
               placeholder="Nome"
-              value={name}
+              value={firstName}
               onChange={handleInputChange}
             />
           </InputContainer>
           <InputContainer>
-            <FormLabel htmlFor="lastname">Sobrenome</FormLabel>
+            <FormLabel htmlFor="lastName">Sobrenome</FormLabel>
             <Input
               type="text"
-              name="lastname"
-              id="lastname"
+              name="lastName"
+              id="lastName"
               placeholder="Sobrenome"
-              value={lastname}
+              value={lastName}
               onChange={handleInputChange}
             />
           </InputContainer>
@@ -114,13 +114,13 @@ const Me: NextPage = () => {
             />
           </InputContainer>
           <InputContainer>
-            <FormLabel htmlFor="phone">Telefone</FormLabel>
+            <FormLabel htmlFor="phoneNumber">Telefone</FormLabel>
             <Input
               type="text"
-              name="phone"
-              id="phone"
+              name="phoneNumber"
+              id="phoneNumber"
               placeholder="Telefone"
-              value={phone}
+              value={phoneNumber}
               onChange={handleInputChange}
             />
           </InputContainer>

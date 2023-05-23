@@ -1,11 +1,11 @@
 import { api } from "./api";
 
-type SignInRequestData = {
+export type SignInRequestData = {
   email: string;
   password: string;
 };
 
-type SignUpRequestData = {
+export type SignUpRequestData = {
   name: string;
   email: string;
   password: string;
@@ -13,35 +13,41 @@ type SignUpRequestData = {
 
 export async function signInRequest(data: SignInRequestData) {
   const { email, password } = data;
-  const response = await api.post("/login", {
-    email,
-    password,
-  });
-  return response.data;
+  try {
+    const response = await api.post("/login", {
+      email,
+      password,
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error("Failed to sign in");
+  }
 }
 
 export async function recoverUserInformation(token: string) {
-  // const response = await api.get("/me", {
-  //   headers: {
-  //     Authorization: `Bearer ${token}`,
-  //   },
-  // });
-  const user = {
-    name: "John",
-    email: "oi@gmail.com",
-    lastname: "Doe",
-    phone: "123456789",
-    password: "123456",
+  try {
+    const response = await api.get("/user/me", {
+      headers: {
+        Authorization: token,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Failed to recover user information", error);
+    return null;
   }
-  return Promise.resolve(user);
 }
 
 export async function signUpRequest(data: SignUpRequestData) {
   const { name, email, password } = data;
-  const response = await api.post("/signin", {
-    name,
-    email,
-    password,
-  });
-  return response.data;
+  try {
+    const response = await api.post("/signin", {
+      name,
+      email,
+      password,
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error("Failed to sign up");
+  }
 }

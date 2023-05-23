@@ -15,17 +15,23 @@ const Login: NextPage = () => {
 
   const toast = useToast();
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const data = {
-      email: e.target.email.value,
-      password: e.target.password.value,
+      email: e.currentTarget.email.value,
+      password: e.currentTarget.password.value,
     };
-    await signIn(data).catch(() => toast({
-      title: "Erro no login",
-      status: 'error',
-      isClosable: true,
-    }));
+    try {
+      await signIn(data);
+    } catch (error) {
+      toast({
+        title: "Erro no login",
+        description: "Ocorreu um erro durante o login.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    }
   };
 
   return (

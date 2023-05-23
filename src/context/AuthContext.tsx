@@ -6,11 +6,11 @@ import { api } from "../services/api";
 import { recoverUserInformation, signInRequest, signUpRequest } from "../services/auth";
 
 type User = {
-  name: string;
-  lastname: string;
   email: string;
-  phone: string;
-  password: string;
+  firstName: string;
+  lastName: string;
+  id: string;
+  phoneNumber: string;
 } | null | undefined;
 
 
