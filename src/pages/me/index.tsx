@@ -1,33 +1,36 @@
 import { AuthContext } from "@/context/AuthContext";
 import { NextPage } from "next";
 import { useContext, useState } from "react";
-import { Button, Container, FormContainer, FormTitle, Input, InputContainer, FormErrorMessage, FormLabel } from "./styles";
+import { Button, Container, FormContainer, FormTitle, Input, InputContainer, FormLabel } from "./styles";
 import { getAPIClient } from "@/services/axios";
 import Layout from "@/components/Layout";
+import { useToast } from "@chakra-ui/react";
+
 
 const Me: NextPage = () => {
   const { user } = useContext(AuthContext);
+  const toast = useToast();
 
   const [name, setName] = useState(user?.name || "");
   const [lastname, setLastname] = useState(user?.lastname || "");
   const [email] = useState(user?.email || "");
   const [phone, setPhone] = useState(user?.phone || "");
 
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
-
-  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value);
-  };
-
-  const handleLastnameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setLastname(e.target.value);
-  };
-
-
-  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPhone(e.target.value);
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    switch (name) {
+      case "name":
+        setName(value);
+        break;
+      case "lastname":
+        setLastname(value);
+        break;
+      case "phone":
+        setPhone(value);
+        break;
+      default:
+        break;
+    }
   };
 
   const validateForm = () => {
@@ -38,13 +41,15 @@ const Me: NextPage = () => {
     e.preventDefault();
 
     if (!validateForm()) {
-      setError("Por favor, preencha todos os campos obrigatórios.");
+      toast({
+        title: "Erro",
+        description: "Por favor, preencha todos os campos obrigatórios.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
       return;
     }
-
-    setLoading(true);
-    setError("");
-    setSuccess("");
 
     try {
       const response = await getAPIClient().put("/users", {
@@ -52,11 +57,21 @@ const Me: NextPage = () => {
         lastname,
         phone,
       });
-      setSuccess(response.data.message);
+      toast({
+        title: "Sucesso",
+        description: response.data.message,
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
     } catch (error) {
-      setError("Ocorreu um erro ao atualizar as informações do usuário.");
-    } finally {
-      setLoading(false);
+      toast({
+        title: "Erro",
+        description: "Ocorreu um erro ao atualizar as informações do usuário.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
     }
   };
 
@@ -73,7 +88,7 @@ const Me: NextPage = () => {
               id="name"
               placeholder="Nome"
               value={name}
-              onChange={handleNameChange}
+              onChange={handleInputChange}
             />
           </InputContainer>
           <InputContainer>
@@ -84,7 +99,7 @@ const Me: NextPage = () => {
               id="lastname"
               placeholder="Sobrenome"
               value={lastname}
-              onChange={handleLastnameChange}
+              onChange={handleInputChange}
             />
           </InputContainer>
           <InputContainer>
@@ -106,13 +121,11 @@ const Me: NextPage = () => {
               id="phone"
               placeholder="Telefone"
               value={phone}
-              onChange={handlePhoneChange}
+              onChange={handleInputChange}
             />
           </InputContainer>
-          {error && <FormErrorMessage>{error}</FormErrorMessage>}
-          {success && <FormErrorMessage>{success}</FormErrorMessage>}
-          <Button type="submit" disabled={loading || !validateForm()}>
-            {loading ? "Carregando..." : "Salvar"}
+          <Button type="submit" disabled={!validateForm()}>
+            Salvar
           </Button>
         </FormContainer>
       </Container>

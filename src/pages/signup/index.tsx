@@ -1,13 +1,15 @@
 import { AuthContext } from "@/context/AuthContext";
 import { GetServerSideProps, NextPage } from "next";
 import { useContext, useState } from "react";
-import { Button, Container, Form, Input, InputContainer, Logo, LogoContainer, FormErrorMessage, FormLabel } from "./styles";
+import { Button, Container, Form, Input, InputContainer, FormErrorMessage, FormLabel } from "./styles";
 import { getAPIClient } from "@/services/axios";
 import { parseCookies } from "nookies";
 import Link from "next/link";
+import { useToast } from "@chakra-ui/react";
 
 const SignUp: NextPage = () => {
   const { signUp } = useContext(AuthContext);
+  const toast = useToast();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -30,8 +32,14 @@ const SignUp: NextPage = () => {
     e.preventDefault();
     try {
       await signUp(formData);
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.response.data.error,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
     }
   };
 
