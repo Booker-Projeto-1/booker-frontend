@@ -15,8 +15,10 @@ type User = {
 
 type SignUpData = {
   name: string;
+  lastname: string;
   email: string;
   password: string;
+  phone: string;
 };
 
 type SignInData = {
@@ -61,17 +63,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     api.defaults.headers.common["Authorization"] = `${token}`;
 
     setUser(user);
-    Router.push("/newAdvertisement");
+    Router.push("/ads");
   }
 
   async function signOut() {
     setUser(null);
     destroyCookie(undefined, "nextauth.token");
+    api.defaults.headers.common["Authorization"] = '';
     Router.push("/login");
   }
 
-  async function signUp({ name, email, password }: SignUpData) {
-    const res = await signUpRequest({ name, email, password });
+  async function signUp({ name, lastname, email, password, phone }: SignUpData) {
+    const res = await signUpRequest({ name, lastname, email, password, phone });
     Router.push("/login");
   }
 

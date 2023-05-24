@@ -5,10 +5,11 @@ import Sidebar from "@/components/Sidebar";
 import { ReactNode } from "react";
 
 type LayoutProps = {
+    title?: string
     children: ReactNode
 }
 
-const Layout = ({children} : LayoutProps) => {
+const Layout = ({title, children} : LayoutProps) => {
     return (
         <Flex w="100%">
             <SidebarContainer>
@@ -16,6 +17,7 @@ const Layout = ({children} : LayoutProps) => {
             </SidebarContainer>
             <Wrapper>
                 <Header />
+                <h1>{title}</h1>
                 {children}
             </Wrapper>
         </Flex>
