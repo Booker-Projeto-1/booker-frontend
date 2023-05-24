@@ -4,6 +4,7 @@ import { useContext, useState } from "react";
 import { Button, Container, Form, Input, InputContainer, FormErrorMessage, FormLabel } from "./styles";
 import { getAPIClient } from "@/services/axios";
 import { parseCookies } from "nookies";
+import { useEffect } from 'react';
 import Link from "next/link";
 import { useToast } from "@chakra-ui/react";
 
