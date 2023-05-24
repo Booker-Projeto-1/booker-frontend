@@ -4,14 +4,15 @@ import { ReactNode, createContext, useEffect, useState } from "react";
 
 import { api } from "../services/api";
 import { recoverUserInformation, signInRequest, signUpRequest } from "../services/auth";
-import { type } from "os";
 
 type User = {
-  name: string;
   email: string;
+  firstName: string;
+  lastName: string;
   id: string;
-  createdAt: string;
-} | null;
+  phoneNumber: string;
+} | null | undefined;
+
 
 type SignUpData = {
   name: string;
@@ -42,19 +43,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const { "nextauth.token": token } = parseCookies();
+
     if (token) {
-      recoverUserInformation(token).then((response: any) => {
-        setUser(response.user);
+      recoverUserInformation(token).then((response) => {
+        setUser(response);
       });
-    } else {
-      Router.push("/login");
     }
   }, []);
 
+
   async function signIn({ email, password }: SignInData) {
-    const { token, user } = await signInRequest({
+    const { token } = await signInRequest({
       email,
       password,
+    });
+
+    recoverUserInformation(token).then((response) => {
+      setUser(response);
     });
 
     setCookie(undefined, "nextauth.token", token, {
@@ -62,7 +67,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     });
     api.defaults.headers.common["Authorization"] = `${token}`;
 
-    setUser(user);
     Router.push("/ads");
   }
 
