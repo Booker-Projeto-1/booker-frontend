@@ -27,6 +27,12 @@ const Sidebar = () => {
         </SidebarButton>
         <SidebarButton
           className="sidebarbutton"
+          leftIcon={<Icon as={BsBook} />}
+        >
+          <Link href={"/myloans"}>Meus Empréstimos</Link>
+        </SidebarButton>
+        <SidebarButton
+          className="sidebarbutton"
           leftIcon={<Icon as={BsPerson} />}
         >
           <Link href={"/me"}>Meu Perfil</Link>

@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { InputLeftElement, Text, Card, Spinner, useToast, Button, Flex } from '@chakra-ui/react';
 import { Search2Icon } from '@chakra-ui/icons';
-import { getAds } from '@/services/advertisement';
+import { getUserLoans } from '@/services/loans';
 
-import { Ads, Ad } from '@/types/types';
+import { Loans, Loan } from '@/types/types';
 import Layout from "@/components/Layout";
 
 import { InputGroup, Input, BookInfoBox, CardBody, Image, CardsWrapper } from './style';
-import AdModal from '@/components/AdModal';
+import LoanModal from '@/components/LoanModal';
 import googleBooksService from '@/services/googleBooksService';
 
 import Router from 'next/router';
@@ -15,16 +15,23 @@ import Router from 'next/router';
 const defaultBook = { id: "", title: "", authors: [], publisher: "", description: "", imageLink: "" }
 const MyLoans = () => {
 
-    const [data, setData] = useState<Ads>([]);
+    const [data, setData] = useState<Loans>([]);
     const [isLoading, setLoading] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedAd, setSelectedAd] = useState<Ad>({ id: 1, userEmail: "", active: false, bookId: "", borrowed: false, description: "", phoneNumber: "", book: defaultBook });
+    const [selectedLoan, setSelectedLoan] = useState<Loan>({ 
+        id: 1,
+        lender: "",
+        borrower: "",
+        bookId: "",
+        begin: "",
+        end: "", 
+        book: defaultBook });
     
     const toast = useToast();
 
     useEffect(() => {
         setLoading(true);
-        getAds()
+        getUserLoans()
             .then((res) => {
                 Promise.all(res.map(async (ad: any) => {
                     const response = await googleBooksService.getBookById(ad.bookId)
@@ -36,7 +43,7 @@ const MyLoans = () => {
                         publisher: response.volumeInfo.publisher,
                         imageLink: response.volumeInfo.imageLinks && response.volumeInfo.imageLinks.thumbnail
                     }
-   
+                    // console.log
                     const resultAd = { ...ad, book }
                     return resultAd
                 })).then((values) => {
@@ -53,32 +60,13 @@ const MyLoans = () => {
 
     }, []);
 
-    const handleClickCard = (ad: Ad) => {
+    const handleClickCard = (loan: Loan) => {
         setIsModalOpen(true);
-        setSelectedAd(ad);
+        setSelectedLoan(loan);
     }
 
     return (
-        <Layout title='Anúncios'>
-            <>
-                <Flex w="100%" gap="2rem" justifyContent="center">
-                    <InputGroup>
-                        <InputLeftElement
-                            pointerEvents='none'
-                            children={<Search2Icon color='gray.300' />}
-                            />
-                        <Input type='search' placeholder='Buscar anúncio' value={query} onChange={(e: any) => console.log(e)}/>
-                    </InputGroup>
-                    <Button
-                        padding="1rem"
-                        backgroundColor="#5D5D5D"
-                        color="white"
-                        onClick={() => Router.push('/newAdvertisement')}
-                        _hover={{ opacity: 0.6 }}
-                    >
-                        Criar anúncio
-                    </Button>
-                </Flex>
+        <Layout title='Meus Empréstimos'>
                 <CardsWrapper>
                     {
                         isLoading ? 
@@ -86,28 +74,27 @@ const MyLoans = () => {
                         :
                         data.length ? (
                             <>
-                                {data.map((ad) => (
-                                    <Card key={ad.id} cursor="pointer" w="10rem" h="12rem" onClick={() => handleClickCard(ad)}>
+                                {data.map((loan) => (
+                                    <Card key={loan.id} cursor="pointer" w="10rem" h="12rem" onClick={() => handleClickCard(loan)}>
                                         <CardBody>
                                             <Image
-                                                src={ad.book.imageLink || "book-default.png"}
-                                                alt={ad.book.title}
+                                                src={loan.book.imageLink || "book-default.png"}
+                                                alt={loan.book.title}
                                             />
                                             <BookInfoBox>
-                                                <Text fontSize="12px" fontWeight="bold">{ad.book.title.substring(0, 50)}</Text>
-                                                <Text fontSize="10px">{`Anunciado por ${ad.userEmail}`}</Text>
+                                                <Text fontSize="12px" fontWeight="bold">{loan.book.title.substring(0, 50)}</Text>
+                                                <Text fontSize="10px">{`Emprestado por ${loan.lender}`}</Text>
                                             </BookInfoBox>
                                         </CardBody>
                                     </Card>
                                 ))}
-                                <AdModal isOpen={isModalOpen} onCloseFunction={() => setIsModalOpen(false)} ad={selectedAd}/>
+                                <LoanModal isOpen={isModalOpen} onCloseFunction={() => setIsModalOpen(false)} loan={selectedLoan}/>
                             </>
                         ) : (
                             <Text>Nenhum anúncio cadastrado</Text>
                         )
                     }
                 </CardsWrapper>
-            </>
         </Layout>
     );
 }

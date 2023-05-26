@@ -23,12 +23,13 @@ export interface Loan {
     lender: string;
     borrower: string;
     bookId: string;
-    description: string;
-    active: boolean;
-    borrowed: boolean;
     book: Book;
+    begin: string;
+    end: string;
 }
 
 export interface Books extends Array<Book> {}
 
 export interface Ads extends Array<Ad> {}
+
+export interface Loans extends Array<Loan> {}

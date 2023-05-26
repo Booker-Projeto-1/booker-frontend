@@ -190,7 +190,7 @@ const AdModal = ({
                       <PopInput
                         placeholder="E-mail do usuário"
                         name="email"
-                        onChange={() => setLoanEmail}
+                        onChange={(e) => setLoanEmail(e.target.value)}
                       />
                       <Flex direction="row" gap="1rem">
                         <PButton
@@ -198,6 +198,8 @@ const AdModal = ({
                             handleLoan({
                               borrowerEmail: loanEmail,
                               advertisementId: ad.id,
+                              beginDate: '23/03/2024',
+                              endDate: '23/04/2024'
                             })
                           }
                         >
