@@ -18,6 +18,17 @@ export interface Ad {
     book: Book;
 }
 
+export interface Loan {
+    id: number;
+    lender: string;
+    borrower: string;
+    bookId: string;
+    description: string;
+    active: boolean;
+    borrowed: boolean;
+    book: Book;
+}
+
 export interface Books extends Array<Book> {}
 
 export interface Ads extends Array<Ad> {}
