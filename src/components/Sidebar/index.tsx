@@ -1,25 +1,46 @@
-import { Icon } from "@chakra-ui/react";
-import { SidebarButton, SidebarButtonGroup, Wrapper } from "./style";
-import { BsHouse, BsBook, BsPerson, BsBoxArrowRight } from 'react-icons/bs';
-import Logo from "../Logo";
-import { useContext } from "react";
 import { AuthContext } from "@/context/AuthContext";
-import Router  from "next/router";
+import { Icon } from "@chakra-ui/react";
+import Link from "next/link";
+import { useContext } from "react";
+import { BsBook, BsBoxArrowRight, BsHouse, BsPerson } from "react-icons/bs";
+import Logo from "../Logo";
+import { SidebarButton, SidebarButtonGroup, Wrapper } from "./style";
 
 const Sidebar = () => {
-    const { signOut } = useContext(AuthContext);
+  const { signOut } = useContext(AuthContext);
 
-    return (
-        <Wrapper>
-            <Logo directionColumn showName={false} />
-            <SidebarButtonGroup>
-                <SidebarButton className="sidebarbutton" leftIcon={<Icon as={BsHouse}/>} onClick={() => Router.push('/ads')}>Anúncios</SidebarButton>
-                <SidebarButton className="sidebarbutton" leftIcon={<Icon as={BsBook}/>}>Meus Anúncios</SidebarButton>
-                <SidebarButton className="sidebarbutton" leftIcon={<Icon as={BsPerson}/>} onClick={() => Router.push("/me")} >Meu Perfil</SidebarButton>
-                <SidebarButton className="sidebarbutton" leftIcon={<Icon as={BsBoxArrowRight}/>} onClick={() => signOut()}>Sair</SidebarButton>
-            </SidebarButtonGroup>
-        </Wrapper>
-    );
-}
+  return (
+    <Wrapper>
+      <Logo directionColumn showName={false} />
+      <SidebarButtonGroup>
+        <SidebarButton
+          className="sidebarbutton"
+          leftIcon={<Icon as={BsHouse} />}
+        >
+          <Link href={"/ads"}>Anúncios</Link>
+        </SidebarButton>
+        <SidebarButton
+          className="sidebarbutton"
+          leftIcon={<Icon as={BsBook} />}
+        >
+          <Link href={"/myads"}>Meus Anúncios</Link>
+        </SidebarButton>
+        <SidebarButton
+          className="sidebarbutton"
+          leftIcon={<Icon as={BsPerson} />}
+        >
+          <Link href={"/me"}>Meu Perfil</Link>
+        </SidebarButton>
+        <SidebarButton
+          className="sidebarbutton"
+          leftIcon={<Icon as={BsBoxArrowRight} />}
+          onClick={() => signOut()}
+        >
+          Sair
+        </SidebarButton>
+      </SidebarButtonGroup>
+    </Wrapper>
+  );
+};
 
 export default Sidebar;
