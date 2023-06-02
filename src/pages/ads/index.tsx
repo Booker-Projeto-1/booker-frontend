@@ -16,6 +16,7 @@ const defaultBook = { id: "", title: "", authors: [], publisher: "", description
 const Ads = () => {
 
     const [data, setData] = useState<Ads>([]);
+    const [ids, setIds] = useState<string[]>([]);
     const [isLoading, setLoading] = useState(false);
     const [query, setQuery] = useState("");
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -25,7 +26,7 @@ const Ads = () => {
 
     useEffect(() => {
         setLoading(true);
-        getAds()
+        getAds(ids)
             .then((res) => {
                 Promise.all(res.map(async (ad: any) => {
                     const response = await googleBooksService.getBookById(ad.bookId)
@@ -52,7 +53,29 @@ const Ads = () => {
               }));
         
 
-    }, []);
+    }, [ids]);
+
+    useEffect(() => {
+        if (query) {
+            const timeout = setTimeout(() => {
+                setLoading(true);
+                googleBooksService.searchBooks(query).then((res) => {
+                    if (res.items) {
+                        const responseData = res.items.map(({ id }: any) => (id));
+                        setIds(responseData);
+                    } else {
+                        setIds([]);
+                    }
+    
+                    setLoading(false);
+                }).catch((err: any) => console.log(err));
+            }, 500)
+
+            return () => clearTimeout(timeout)    
+        }
+     
+        return () => {}
+    }, [query]);
 
     const handleClickCard = (ad: Ad) => {
         setIsModalOpen(true);
@@ -68,7 +91,7 @@ const Ads = () => {
                             pointerEvents='none'
                             children={<Search2Icon color='gray.300' />}
                             />
-                        <Input type='search' placeholder='Buscar anúncio' value={query} onChange={(e: any) => console.log(e)}/>
+                        <Input type='search' placeholder='Buscar anúncio' value={query} onChange={(e: any) => setQuery(e.target.value)}/>
                     </InputGroup>
                     <Button
                         padding="1rem"

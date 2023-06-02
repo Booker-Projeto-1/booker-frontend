@@ -78,8 +78,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   async function signUp({ name, lastname, email, password, phone }: SignUpData) {
-    const res = await signUpRequest({ name, lastname, email, password, phone });
-    Router.push("/login");
+    try {
+      await signUpRequest({
+        name,
+        lastname,
+        email,
+        password,
+        phone,
+      });
+      Router.push("/login");
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
   }
 
   return (
