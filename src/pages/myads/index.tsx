@@ -80,7 +80,7 @@ const MyAds: NextPage<Props> = ({}) => {
           isClosable: true,
         });
       });
-  }, []);
+  }, [isModalOpen]);
 
   return (
     <Layout title="Meus Anúncios">

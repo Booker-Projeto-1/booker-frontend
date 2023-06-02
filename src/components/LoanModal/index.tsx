@@ -19,12 +19,30 @@ const BookModal = ({ isOpen, onCloseFunction, loan }: LoanModalProps) => {
                     <Flex gap="2rem">
                         <Image w="40%" src={loan.book.imageLink || "book-default.png"} alt={loan.book.title} />
                         <Flex w="60%" alignItems="flex-start" gap="1rem" direction="column">
-                            <Text><b>Emprestado por: </b>{loan.lender}</Text>
-                            <Text>{`Data de empréstimo: ${loan.begin}`}</Text>
-                            <Text>{`Data de devolução: ${loan.end || '-'}`}</Text>
-                            <Text>{loan.book.description}</Text>
-                            <Text>{`Autor(es): ${loan.book.authors.join(", ")}`}</Text>
-                            <Text>{`Editora: ${loan.book.publisher || '-'}`}</Text>
+                            <Text>
+                                <b>Emprestado por: </b>
+                                {loan.lender}
+                            </Text>
+                            <Text>
+                                <b>Data de empréstimo: </b>
+                                {loan.begin || '-'}
+                            </Text>
+                            <Text>
+                                <b>Data de devolução: </b>
+                                {loan.end || '-'}
+                            </Text>
+                            <Text>
+                                <b>Descrição do livro: </b>
+                                {loan.book.description}
+                            </Text>
+                            <Text>
+                                <b>Autor(es): </b>
+                                {loan.book.authors.join(", ")}
+                            </Text>
+                            <Text>
+                                <b>Editora: </b>
+                                {loan.book.publisher || '-'}
+                            </Text>
                         </Flex>
                     </Flex>
                 </ModalBody>

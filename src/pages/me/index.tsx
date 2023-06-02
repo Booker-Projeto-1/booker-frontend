@@ -56,6 +56,7 @@ const Me: NextPage = () => {
         firstName,
         lastName,
         phoneNumber,
+        email
       });
       toast({
         title: "Sucesso",

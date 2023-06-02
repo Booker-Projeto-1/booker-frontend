@@ -1,4 +1,4 @@
-import { newAdRequest } from "@/services/advertisement";
+import { newAdRequest, updateAdRequest, updateAdRequestData } from "@/services/advertisement";
 import { newLoanRequest } from "@/services/loan";
 import { Ad } from "@/types/types";
 import {
@@ -28,6 +28,8 @@ import {
   Thead,
   Tr,
   useToast,
+  Input,
+  Portal
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { useState } from "react";
@@ -47,39 +49,45 @@ const AdModal = ({
   ad,
   selfAd = false,
 }: BookModalProps) => {
-  const [isBookSelected, setIsBookSelected] = useState(false);
   const [description, setDescription] = useState("");
   const [loanEmail, setLoanEmail] = useState("");
+  const [beginDate, setBeginDate] = useState("");
+  const [endDate, setEndDate] = useState("");
 
   const toast = useToast();
 
-  const handleClick = (createAdvertisement: boolean) => {
-    if (createAdvertisement) {
-      setIsBookSelected(false);
-      newAdRequest({ bookId: ad.book.id, description })
-        .then(() =>
-          toast({
-            title: "Anúncio criado",
-            status: "success",
-            isClosable: true,
-          })
-        )
-        .catch(() =>
-          toast({
-            title: "Erro na criação do anúncio",
-            status: "error",
-            isClosable: true,
-          })
-        );
-      setDescription("");
-      onCloseFunction();
-    } else {
-      setIsBookSelected(true);
-    }
-  };
+  const handleUpdateAd = (ad: updateAdRequestData) => {
+    updateAdRequest(ad)
+      .then(() => {
+        toast({
+          title: "Anúncio atualizado",
+          status: "success",
+          isClosable: true,
+        });
 
-  const handleLoan = (data: any) => {
-    newLoanRequest(data)
+        onCloseFunction();
+      })
+      .catch(() =>
+        toast({
+          title: "Erro ao atualizar anúncio",
+          status: "error",
+          isClosable: true,
+        })
+      );
+  }
+
+  const handleLoan = async (data: any) => {
+    const bDate = new Date(data.beginDate)
+    const eDate = new Date(data.endDate)
+    const formattedBeginDate = bDate.toLocaleDateString('pt-br')
+    const formattedEndDate = eDate.toLocaleDateString('pt-br')
+    const newLoanRequestData = {
+      borrowerEmail: data.borrowerEmail,
+      advertisementId: data.advertisementId,
+      beginDate: formattedBeginDate,
+      endDate: formattedEndDate
+    }
+    newLoanRequest(newLoanRequestData)
       .then(() =>
         toast({
           title: "Livro emprestado",
@@ -176,40 +184,66 @@ const AdModal = ({
         <ModalFooter>
           {selfAd ? (
             <Flex direction="row" gap="1rem">
-              <Popover>
-                <PopoverTrigger>
-                  <PButton>Marcar como Emprestado</PButton>
-                </PopoverTrigger>
-                <PopoverContent>
-                  <PopoverArrow />
-                  <PopoverCloseButton />
-                  <PopoverHeader>Emprestar livro para</PopoverHeader>
-                  <PopoverBody>
-                    <Flex gap="0.5rem" direction="column">
-                      <label>E-mail</label>
-                      <PopInput
-                        placeholder="E-mail do usuário"
-                        name="email"
-                        onChange={(e) => setLoanEmail(e.target.value)}
-                      />
-                      <Flex direction="row" gap="1rem">
-                        <PButton
-                          onClick={() =>
-                            handleLoan({
-                              borrowerEmail: loanEmail,
-                              advertisementId: ad.id,
-                              beginDate: '23/03/2024',
-                              endDate: '23/04/2024'
-                            })
-                          }
-                        >
-                          Salvar
-                        </PButton>
-                      </Flex>
-                    </Flex>
-                  </PopoverBody>
-                </PopoverContent>
-              </Popover>
+              {
+                ad.borrowed ? (
+                  <PButton onClick={() => handleUpdateAd({
+                    id: ad.id,
+                    description: ad.description,
+                    borrowed: !ad.borrowed,
+                    active: ad.active
+                  })}>Marcar como devolvido</PButton>
+                ) : (
+                  <Popover>
+                    <PopoverTrigger>
+                      <PButton>Emprestar livro para</PButton>
+                    </PopoverTrigger>
+                    <PopoverContent>
+                      <PopoverArrow />
+                      <PopoverCloseButton />
+                      <PopoverHeader>Emprestar livro para</PopoverHeader>
+                      <PopoverBody>
+                        <Flex gap="0.5rem" direction="column">
+                          <label>E-mail</label>
+                          <PopInput
+                            placeholder="E-mail do usuário"
+                            name="email"
+                            onChange={(e) => setLoanEmail(e.target.value)}
+                          />
+                          <label>Data do empréstimo</label>
+                          <Input
+                            placeholder="Select Date and Time"
+                            type="date"
+                            onChange={(e) => setBeginDate(e.target.value)}
+                          />
+                          <label>Data de devolução</label>
+                          <Input
+                            placeholder="Select Date and Time"
+                            type="date"
+                            onChange={(e) => setEndDate(e.target.value)}
+                          />
+                          <Flex direction="row" gap="1rem">
+                            <PButton
+                              onClick={() =>
+                                handleLoan({
+                                  borrowerEmail: loanEmail,
+                                  advertisementId: ad.id,
+                                  beginDate,
+                                  endDate
+                                })
+                              }
+                            >
+                              Salvar
+                            </PButton>
+                          </Flex>
+                        </Flex>
+                      </PopoverBody>
+                    </PopoverContent>
+                  </Popover>
+                )
+              }
+              <PButton onClick={() => handleUpdateAd({ id: ad.id, description: ad.description, active: !ad.active, borrowed: ad.borrowed })}>
+                {ad.active ? 'Desativar anúncio' : 'Ativar anúncio'}
+              </PButton>
             </Flex>
           ) : (
             <NextLink href={`https://wa.me/${ad.phoneNumber}`} passHref>

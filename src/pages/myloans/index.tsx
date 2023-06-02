@@ -52,7 +52,7 @@ const MyLoans = () => {
                 })
             })
             .catch(() => toast({
-                title: "Erro ao carregar anúncios",
+                title: "Erro ao carregar empréstimos",
                 status: 'error',
                 isClosable: true,
               }));
