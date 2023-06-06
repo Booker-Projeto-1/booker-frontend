@@ -6,7 +6,7 @@ import { getAPIClient } from "@/services/axios";
 import { parseCookies } from "nookies";
 import { useEffect } from 'react';
 import Link from "next/link";
-import { useToast } from "@chakra-ui/react";
+import { FormHelperText, useToast } from "@chakra-ui/react";
 
 const SignUp: NextPage = () => {
   const { signUp } = useContext(AuthContext);
@@ -45,7 +45,8 @@ const SignUp: NextPage = () => {
         setIsErrorPassword(value === "");
         break;
       case "phone":
-        setIsErrorPhone(value === "");
+        const reg = /^(55[0-9]{2}(9?)[0-9]{8})$/;
+        setIsErrorPhone(value === "" || !reg.test(value));
         break;
     }
   };
@@ -55,6 +56,7 @@ const SignUp: NextPage = () => {
   const [isErrorEmail, setIsErrorEmail] = useState(false);
   const [isErrorPassword, setIsErrorPassword] = useState(false);
   const [isErrorPhone, setIsErrorPhone] = useState(false);
+  // const [isInvalidFormatPhone, setIsInvalidFormatPhone] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -94,8 +96,12 @@ const SignUp: NextPage = () => {
           {isErrorPassword && <FormErrorMessage>Senha é obrigatório.</FormErrorMessage>}
         </InputContainer>
         <InputContainer isRequired isInvalid={isErrorPhone}>
-          <Input name="phone" placeholder="Telefone" type="text" value={phone} onChange={handleChange} />
-          {isErrorPhone && <FormErrorMessage>Telefone é obrigatório.</FormErrorMessage>}
+          <Input name="phone" placeholder="Telefone" type="tel" value={phone} onChange={handleChange}/>
+          {isErrorPhone ? (
+            <FormErrorMessage fontSize="0.7rem">O telefone deve conter apenas dígitos, com códigos de área e número. Exemplo: 5583912345678</FormErrorMessage>
+          ) : (
+            <FormHelperText fontSize="0.7rem">O telefone deve conter apenas dígitos, com códigos de área e número. Exemplo: 5583912345678</FormHelperText>
+          )}
         </InputContainer>
         <Button type="submit" disabled={isError}>
           Cadastrar

@@ -246,7 +246,7 @@ const AdModal = ({
               </PButton>
             </Flex>
           ) : (
-            <NextLink href={`https://wa.me/${ad.phoneNumber}`} passHref>
+            <NextLink href={`https://wa.me/${ad.phoneNumber}`} passHref target="_blank">
               <Button
                 borderRadius="30px"
                 padding="1rem"

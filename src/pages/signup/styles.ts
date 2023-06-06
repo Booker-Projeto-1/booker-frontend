@@ -52,7 +52,6 @@ export const Form = styled.form`
   width: 100%;
   min-height: 30rem;
   max-width: 600px;
-  background-color: green;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -62,6 +61,7 @@ export const Form = styled.form`
   background-color: ${(props) => props.theme.palette.secondary.main};
   border-radius: 30px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  gap: 1rem;
   
   h1 {
     color: ${(props) => props.theme.palette.primary.contrastText};
@@ -84,8 +84,8 @@ export const Form = styled.form`
   @media (max-width: 500px) {
     width: 100%;
     max-width: 600px;
-    height: 100%;
-    margin-top: 11.875rem;
+    /* height: 100%; */
+    /* margin-top: 11.875rem; */
   }
 `;
 
@@ -107,7 +107,8 @@ export const Input = styled(UInput)`
 
 export const Button = styled.button`
   width: 100%;
-  height: 50px;
+  /* height: 50px; */
+  padding: 0.5rem;
   border-radius: 30px;
   border: 1px solid ${(props) => props.theme.palette.darker.main};
   background-color: ${(props) => props.theme.palette.darker.main};
@@ -130,9 +131,11 @@ export const FormErrorMessage = styled(FE)`
 
 export const InputContainer = styled(FC)`
   width: 100% !important;
-  height: 5rem !important;
   display: flex !important;
   flex-direction: column !important;
+  /* input { */
+    /* height: 5rem !important; */
+  /* } */
   /* align-items: space-between !important;
   justify-content: space-between !important; */
 `;
