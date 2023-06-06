@@ -14,9 +14,9 @@ export async function newAdRequest(data: newAdRequestData) {
     }
 }
 
-export async function getAds() {
+export async function getAds(bookIds: string[] | undefined) {
     try {
-        const response = await api.get("/advertisement/list");
+        const response = await api.get("/advertisement/list" + (bookIds ? "?bookIds=" + bookIds.join(",") : ""));
         return Promise.resolve(response.data);
     } catch (res: any) {
         return Promise.reject(res.data);

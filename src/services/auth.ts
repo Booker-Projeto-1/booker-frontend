@@ -51,7 +51,8 @@ export async function signUpRequest(data: SignUpRequestData) {
       phoneNumber: phone,
     });
     return response.data;
-  } catch (error) {
-    throw new Error("Failed to sign up");
+  } catch (error: any) {
+    console.error("Failed to sign up", error);
+    throw new Error(error.response.data.error);
   }
 }
