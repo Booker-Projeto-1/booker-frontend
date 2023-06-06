@@ -27,7 +27,34 @@ const SignUp: NextPage = () => {
       ...prevFormData,
       [e.target.name]: e.target.value,
     }));
+    changeIsError(e.target.name, e.target.value);
   };
+
+  const changeIsError = (name: string, value: string) => {
+    switch (name) {
+      case "name":
+        setIsErrorName(value === "");
+        break;
+      case "lastname":
+        setIsErrorLastname(value === "");
+        break;
+      case "email":
+        setIsErrorEmail(value === "");
+        break;
+      case "password":
+        setIsErrorPassword(value === "");
+        break;
+      case "phone":
+        setIsErrorPhone(value === "");
+        break;
+    }
+  };
+
+  const [isErrorName, setIsErrorName] = useState(false);
+  const [isErrorLastname, setIsErrorLastname] = useState(false);
+  const [isErrorEmail, setIsErrorEmail] = useState(false);
+  const [isErrorPassword, setIsErrorPassword] = useState(false);
+  const [isErrorPhone, setIsErrorPhone] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -36,7 +63,7 @@ const SignUp: NextPage = () => {
     } catch (error: any) {
       toast({
         title: "Error",
-        description: error.response.data.error,
+        description: error.message,  
         status: "error",
         duration: 5000,
         isClosable: true,
@@ -44,11 +71,6 @@ const SignUp: NextPage = () => {
     }
   };
 
-  const isErrorName = name === "";
-  const isErrorLastname = lastname === "";
-  const isErrorEmail = email === "";
-  const isErrorPassword = password === "";
-  const isErrorPhone = phone === "";
   const isError = isErrorName || isErrorLastname || isErrorEmail || isErrorPassword || isErrorPhone;
 
   return (

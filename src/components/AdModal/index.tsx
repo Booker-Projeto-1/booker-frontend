@@ -153,7 +153,7 @@ const AdModal = ({
                 </Text>
               </Flex>
             </Flex>
-            {selfAd && (
+            {/* {selfAd && (
               <Flex direction="column" gap="1rem">
                 <Text fontWeight="bold">Histórico de Empréstimos</Text>
                 <TableContainer>
@@ -177,7 +177,7 @@ const AdModal = ({
                   </Table>
                 </TableContainer>
               </Flex>
-            )}
+            )} */}
           </Flex>
         </ModalBody>
 

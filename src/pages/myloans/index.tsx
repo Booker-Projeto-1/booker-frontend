@@ -91,7 +91,7 @@ const MyLoans = () => {
                                 <LoanModal isOpen={isModalOpen} onCloseFunction={() => setIsModalOpen(false)} loan={selectedLoan}/>
                             </>
                         ) : (
-                            <Text>Nenhum anúncio cadastrado</Text>
+                            <Text>Nenhum empréstimo encontrado</Text>
                         )
                     }
                 </CardsWrapper>
