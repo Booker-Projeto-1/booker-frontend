@@ -113,6 +113,10 @@ export const Button = styled.button`
   &:hover {
     filter: brightness(0.9);
   }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
 `;
 
 

@@ -1,11 +1,10 @@
 import { AuthContext } from "@/context/AuthContext";
 import { NextPage } from "next";
 import { useContext, useState } from "react";
-import { Button, Container, FormContainer, FormTitle, Input, InputContainer, FormLabel } from "./styles";
+import { Button, Container, FormContainer, FormTitle, Input, InputContainer, FormLabel, FormControl } from "./styles";
 import { getAPIClient } from "@/services/axios";
 import Layout from "@/components/Layout";
-import { useToast } from "@chakra-ui/react";
-
+import { FormHelperText, useToast } from "@chakra-ui/react";
 
 const Me: NextPage = () => {
   const { user } = useContext(AuthContext);
@@ -34,7 +33,8 @@ const Me: NextPage = () => {
   };
 
   const validateForm = () => {
-    return firstName !== "" && lastName !== "" && phoneNumber !== "";
+    const reg = /^(55[0-9]{2}(9?)[0-9]{8})$/;
+    return firstName !== "" && lastName !== "" && phoneNumber !== "" && reg.test(phoneNumber);
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -43,7 +43,7 @@ const Me: NextPage = () => {
     if (!validateForm()) {
       toast({
         title: "Erro",
-        description: "Por favor, preencha todos os campos obrigatórios.",
+        description: "Por favor, preencha os campos com valores válidos.",
         status: "error",
         duration: 3000,
         isClosable: true,
@@ -114,17 +114,20 @@ const Me: NextPage = () => {
               disabled={true}
             />
           </InputContainer>
-          <InputContainer>
-            <FormLabel htmlFor="phoneNumber">Telefone</FormLabel>
-            <Input
-              type="text"
-              name="phoneNumber"
-              id="phoneNumber"
-              placeholder="Telefone"
-              value={phoneNumber}
-              onChange={handleInputChange}
-            />
-          </InputContainer>
+          <FormControl>
+            <InputContainer>
+              <FormLabel htmlFor="phoneNumber">Telefone</FormLabel>
+              <Input
+                type="text"
+                name="phoneNumber"
+                id="phoneNumber"
+                placeholder="Telefone"
+                value={phoneNumber}
+                onChange={handleInputChange}
+              />
+              <FormHelperText fontSize="0.7rem">O telefone deve conter apenas dígitos, com códigos de área e número. Exemplo: 5583912345678</FormHelperText>
+            </InputContainer>
+          </FormControl>
           <Button type="submit" disabled={!validateForm()}>
             Salvar
           </Button>
