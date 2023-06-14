@@ -120,14 +120,14 @@ const AdModal = ({
         <ModalCloseButton />
         <ModalBody w="100%">
           <Flex gap="2rem" direction="column">
-            <Flex gap="2rem">
+            <Flex gap="2rem" direction={{base: "column", md: "row"}} alignItems={{base: 'center', md: 'flex-start'}}>
               <Image
                 w="40%"
                 src={ad.book.imageLink || "book-default.png"}
                 alt={ad.book.title}
               />
               <Flex
-                w="60%"
+                w={{base: "100%", md: "60%"}}
                 alignItems="flex-start"
                 gap="1rem"
                 direction="column"
@@ -153,7 +153,7 @@ const AdModal = ({
                 </Text>
               </Flex>
             </Flex>
-            {/* {selfAd && (
+            {selfAd && (
               <Flex direction="column" gap="1rem">
                 <Text fontWeight="bold">Histórico de Empréstimos</Text>
                 <TableContainer>
@@ -162,22 +162,24 @@ const AdModal = ({
                       <Tr>
                         <Th>Usuário</Th>
                         <Th>Data de empréstimo</Th>
-                        <Th>Status</Th>
                         <Th>Data de devolução</Th>
                       </Tr>
                     </Thead>
                     <Tbody>
-                      <Tr>
-                        <Td>João</Td>
-                        <Td>01/01/2021</Td>
-                        <Td>Emprestado</Td>
-                        <Td>01/02/2021</Td>
-                      </Tr>
+                      {
+                        ad.loans.map((loan) => (
+                          <Tr>
+                            <Td>{loan.borrowerEmail}</Td>
+                            <Td>{loan.beginDate}</Td>
+                            <Td>{loan.endDate}</Td>
+                          </Tr>
+                        ))
+                      }
                     </Tbody>
                   </Table>
                 </TableContainer>
               </Flex>
-            )} */}
+            )}
           </Flex>
         </ModalBody>
 

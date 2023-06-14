@@ -60,8 +60,9 @@ const NewAdvertisement = () => {
                 <InputGroup>
                     <InputLeftElement
                         pointerEvents='none'
-                        children={<Search2Icon color='gray.300' />}
-                    />
+                    >
+                        <Search2Icon color='gray.300' />
+                    </InputLeftElement>
                     <Input type='search' placeholder='Buscar livro' value={query} onChange={({ target }) => handleSearchInputChange(target.value)}/>
                 </InputGroup>
                 <CardsWrapper>

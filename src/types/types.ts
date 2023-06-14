@@ -16,6 +16,7 @@ export interface Ad {
     active: boolean;
     borrowed: boolean;
     book: Book;
+    loans: Array<any>;
 }
 
 export interface Loan {

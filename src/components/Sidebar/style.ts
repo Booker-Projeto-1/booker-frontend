@@ -25,7 +25,7 @@ export const SidebarButtonGroup = styled(Box)`
     display: flex;
     flex-direction: column;
     width: 100%;
-    /* .sidebarbutton + .sidebarbutton {
-        border-bottom: none !important;    
-    } */
+    .sidebarbutton {
+        width: 100%;    
+    }
 `;

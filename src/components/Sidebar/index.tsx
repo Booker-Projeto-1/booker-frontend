@@ -3,6 +3,7 @@ import { Icon } from "@chakra-ui/react";
 import Link from "next/link";
 import { useContext } from "react";
 import { BsBook, BsBoxArrowRight, BsHouse, BsPerson } from "react-icons/bs";
+import { FaRegHandshake } from 'react-icons/fa';
 import Logo from "../Logo";
 import { SidebarButton, SidebarButtonGroup, Wrapper } from "./style";
 
@@ -13,30 +14,38 @@ const Sidebar = () => {
     <Wrapper>
       <Logo directionColumn showName={false} />
       <SidebarButtonGroup>
-        <SidebarButton
-          className="sidebarbutton"
-          leftIcon={<Icon as={BsHouse} />}
-        >
-          <Link href={"/ads"}>Anúncios</Link>
-        </SidebarButton>
-        <SidebarButton
-          className="sidebarbutton"
-          leftIcon={<Icon as={BsBook} />}
-        >
-          <Link href={"/myads"}>Meus Anúncios</Link>
-        </SidebarButton>
-        <SidebarButton
-          className="sidebarbutton"
-          leftIcon={<Icon as={BsBook} />}
-        >
-          <Link href={"/myloans"}>Meus Empréstimos</Link>
-        </SidebarButton>
-        <SidebarButton
-          className="sidebarbutton"
-          leftIcon={<Icon as={BsPerson} />}
-        >
-          <Link href={"/me"}>Meu Perfil</Link>
-        </SidebarButton>
+        <Link href={"/ads"}>
+          <SidebarButton
+            className="sidebarbutton"
+            leftIcon={<Icon as={BsHouse} />}
+          >
+            Anúncios
+          </SidebarButton>
+        </Link>
+        <Link href={"/myads"}>
+          <SidebarButton
+            className="sidebarbutton"
+            leftIcon={<Icon as={BsBook} />}
+          >
+            Meus Anúncios
+          </SidebarButton>
+        </Link>
+        <Link href={"/myloans"}>
+          <SidebarButton
+            className="sidebarbutton"
+            leftIcon={<Icon as={FaRegHandshake} />}
+          >
+             Meus Empréstimos
+          </SidebarButton>
+        </Link>
+        <Link href={"/me"}>
+          <SidebarButton
+            className="sidebarbutton"
+            leftIcon={<Icon as={BsPerson} />}
+          >
+            Meu Perfil
+          </SidebarButton>
+        </Link>
         <SidebarButton
           className="sidebarbutton"
           leftIcon={<Icon as={BsBoxArrowRight} />}
