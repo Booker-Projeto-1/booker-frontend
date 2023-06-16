@@ -50,6 +50,7 @@ const Ads = () => {
     description: "",
     phoneNumber: "",
     book: defaultBook,
+    loans: []
   });
   
   const toast = useToast();
@@ -117,8 +118,9 @@ const Ads = () => {
             <InputGroup>
                 <InputLeftElement
                     pointerEvents='none'
-                    children={<Search2Icon color='gray.300' />}
-                    />
+                >
+                    <Search2Icon color='gray.300' />
+                </InputLeftElement>
                 <Input type='search' placeholder='Buscar anúncio' value={query} onChange={(e: any) => setQuery(e.target.value)}/>
             </InputGroup>
             <Button

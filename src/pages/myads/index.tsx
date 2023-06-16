@@ -41,6 +41,7 @@ const MyAds: NextPage<Props> = ({}) => {
     description: "",
     phoneNumber: "",
     book: defaultBook,
+    loans: [],
   });
 
   const toast = useToast();
