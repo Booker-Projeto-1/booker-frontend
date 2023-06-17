@@ -11,8 +11,6 @@ const PButton: NextPage<Props> = ({ onClick, children, secondary }) => {
   return (
     <Button
       borderRadius="30px"
-      padding="1rem"
-      w="100%"
       backgroundColor={secondary ? "#FFF" : "#5E5E5E"}
       color={secondary ? "#5E5E5E" : "#FFF"}
       border={secondary ? "1px solid #5E5E5E" : "none"}

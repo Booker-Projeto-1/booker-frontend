@@ -114,7 +114,7 @@ const Ads = () => {
   return (
     <Layout title="Anúncios">
       <>
-        <Flex w="100%" gap="2rem" justifyContent="center">
+        <Flex w="100%" gap="1rem" justifyContent="center">
             <InputGroup>
                 <InputLeftElement
                     pointerEvents='none'
@@ -125,12 +125,13 @@ const Ads = () => {
             </InputGroup>
             <Button
                 padding="1rem"
+                borderRadius="30px"
                 backgroundColor="#5D5D5D"
                 color="white"
                 onClick={() => Router.push('/newAdvertisement')}
                 _hover={{ opacity: 0.6 }}
             >
-                Criar anúncio
+                <Text>Criar anúncio</Text>
             </Button>
         </Flex>
         <CardsWrapper>

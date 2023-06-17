@@ -196,7 +196,7 @@ const AdModal = ({
 
         <ModalFooter>
           {selfAd ? (
-            <Flex direction="row" gap="1rem">
+            <Flex direction="row" gap="1rem" w="100%" justifyContent="flex-end">
               {
                 ad.borrowed ? (
                   <PButton onClick={() => handleUpdateAd({
