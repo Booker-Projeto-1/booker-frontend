@@ -1,4 +1,4 @@
-import { newAdRequest, updateAdRequest, updateAdRequestData } from "@/services/advertisement";
+import { updateAdRequest, updateAdRequestData } from "@/services/advertisement";
 import { newLoanRequest } from "@/services/loan";
 import { Ad } from "@/types/types";
 import {
@@ -29,12 +29,10 @@ import {
   Tr,
   useToast,
   Input,
-  Portal
 } from "@chakra-ui/react";
-import NextLink from "next/link";
 import { useState } from "react";
 import PButton from "../Button";
-import { PopInput } from "./styles";
+import { AlertContainer, SpaceBetweenButtons, AlertContent, PopInput } from "./styles";
 
 interface BookModalProps {
   isOpen: boolean;
@@ -49,10 +47,23 @@ const AdModal = ({
   ad,
   selfAd = false,
 }: BookModalProps) => {
-  const [description, setDescription] = useState("");
   const [loanEmail, setLoanEmail] = useState("");
   const [beginDate, setBeginDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [showAlert, setShowAlert] = useState(false);
+  const [redirectToWhatsApp, setRedirectToWhatsApp] = useState(false);
+
+
+  const handleWhatsAppButtonClick = () => {
+    setShowAlert(true);
+  };
+
+  const handleWhatsAppAlertResponse = (response: any) => {
+    if (response) {
+      window.open(`https://wa.me/${ad.phoneNumber}`);
+    }
+    setShowAlert(false);
+  };
 
   const toast = useToast();
 
@@ -120,14 +131,14 @@ const AdModal = ({
         <ModalCloseButton />
         <ModalBody w="100%">
           <Flex gap="2rem" direction="column">
-            <Flex gap="2rem" direction={{base: "column", md: "row"}} alignItems={{base: 'center', md: 'flex-start'}}>
+            <Flex gap="2rem" direction={{ base: "column", md: "row" }} alignItems={{ base: 'center', md: 'flex-start' }}>
               <Image
                 w="40%"
                 src={ad.book.imageLink || "book-default.png"}
                 alt={ad.book.title}
               />
               <Flex
-                w={{base: "100%", md: "60%"}}
+                w={{ base: "100%", md: "60%" }}
                 alignItems="flex-start"
                 gap="1rem"
                 direction="column"
@@ -248,17 +259,51 @@ const AdModal = ({
               </PButton>
             </Flex>
           ) : (
-            <NextLink href={`https://wa.me/${ad.phoneNumber}`} passHref target="_blank">
-              <Button
-                borderRadius="30px"
-                padding="1rem"
-                backgroundColor="#5D5D5D"
-                color="white"
-                as="a"
-              >
-                Pedir emprestado
-              </Button>
-            </NextLink>
+            <>
+              {!redirectToWhatsApp && (
+                <>
+                  <Button
+                    borderRadius="30px"
+                    padding="1rem"
+                    backgroundColor="#5D5D5D"
+                    color="white"
+                    onClick={handleWhatsAppButtonClick}
+                  >
+                    Pedir emprestado
+                  </Button>
+
+                  {showAlert && (
+                    <AlertContainer space-between="true">
+                      <AlertContent>
+                        <p>Você deseja ser encaminhado para o WhatsApp?</p>
+                        <SpaceBetweenButtons>
+                          <Button
+                            borderRadius="30px"
+                            padding="1rem"
+                            width="40%"
+                            backgroundColor="#5D5D5D"
+                            color="white"
+                            onClick={() => handleWhatsAppAlertResponse(true)}
+                          >
+                            Sim
+                          </Button>
+                          <Button
+                            borderRadius="30px"
+                            width="40%"
+                            padding="1rem"
+                            backgroundColor="#5D5D5D"
+                            color="white"
+                            onClick={() => handleWhatsAppAlertResponse(false)}
+                          >
+                            Não
+                          </Button>
+                        </SpaceBetweenButtons>
+                      </AlertContent>
+                    </AlertContainer>
+                  )}
+                </>
+              )}
+            </>
           )}
         </ModalFooter>
       </ModalContent>
