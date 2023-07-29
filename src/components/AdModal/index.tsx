@@ -33,6 +33,7 @@ import {
 import { useState } from "react";
 import PButton from "../Button";
 import { AlertContainer, SpaceBetweenButtons, AlertContent, PopInput } from "./styles";
+import ReactHtmlParser from 'react-html-parser';
 
 interface BookModalProps {
   isOpen: boolean;
@@ -152,7 +153,7 @@ const AdModal = ({
                 </Text>
                 <Text>
                   <b>Descrição do livro: </b>
-                  {ad.book.description}
+                  {ReactHtmlParser(ad.book.description)}
                 </Text>
                 <Text>
                   <b>Autor(es): </b>
