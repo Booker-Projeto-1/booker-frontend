@@ -1,7 +1,8 @@
 import { Book } from "@/types/types";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, Text, ModalFooter, Button, Image, Flex, Input, Textarea, useToast } from "@chakra-ui/react";
 import { useState } from "react";
-import { newAdRequest } from '@/services/advertisement'
+import { newAdRequest } from '@/services/advertisement';
+import ReactHtmlParser from 'react-html-parser';
 
 interface BookModalProps {
     isOpen: boolean,
@@ -53,13 +54,24 @@ const BookModal = ({ isOpen, onCloseFunction, book }: BookModalProps) => {
                                 />
                             </>
                         : (
-                            <Flex gap="2rem">
+                            <Flex gap="2rem" direction={{ base: "column", md: "row" }} alignItems={{ base: 'center', md: 'flex-start' }}>
                                 <Image w="40%" src={book.imageLink || "book-default.png"} alt={book.title} />
-                                <Flex w="60%" alignItems="flex-start" gap="1rem" direction="column">
-                                    <Text>{book.title}</Text>
-                                    <Text>{book.description}</Text>
-                                    <Text>{`Autor(es): ${book.authors.join(", ")}`}</Text>
-                                    <Text>{`Editora: ${book.publisher || '-'}`}</Text>
+                                <Flex w={{ base: "100%", md: "60%" }} alignItems="flex-start" gap="1rem" direction="column">
+                                    <Text>    
+                                        <b>{book.title}</b>
+                                    </Text>
+                                    <Text>
+                                        <b>Descrição do livro: </b>
+                                        {ReactHtmlParser(book.description)}
+                                    </Text>
+                                    <Text>
+                                        <b>Autor(es): </b>
+                                        {book.authors.join(", ")}
+                                    </Text>
+                                    <Text>
+                                        <b>Editora: </b>
+                                        {book.publisher || '-'}
+                                    </Text>
                                 </Flex>
                             </Flex>
                         )
