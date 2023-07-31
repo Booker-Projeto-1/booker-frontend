@@ -48,7 +48,7 @@ const AdModal = ({
   ad,
   selfAd = false,
 }: BookModalProps) => {
-  const [loanEmail, setLoanEmail] = useState("");
+  const [loanUsername, setLoanUsername] = useState("");
   const [beginDate, setBeginDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [showAlert, setShowAlert] = useState(false);
@@ -67,6 +67,16 @@ const AdModal = ({
   };
 
   const toast = useToast();
+
+  const capitalizeWords = (str: string) => {
+    if (str) {
+      return str
+        .toLowerCase()
+        .split(' ')
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
+    } else return "";
+  };
 
   const handleUpdateAd = (ad: updateAdRequestData) => {
     updateAdRequest(ad)
@@ -94,7 +104,7 @@ const AdModal = ({
     const formattedBeginDate = bDate.toLocaleDateString('pt-br')
     const formattedEndDate = eDate.toLocaleDateString('pt-br')
     const newLoanRequestData = {
-      borrowerEmail: data.borrowerEmail,
+      borrowerUsername: capitalizeWords(data.userFullName),
       advertisementId: data.advertisementId,
       beginDate: formattedBeginDate,
       endDate: formattedEndDate
@@ -127,7 +137,7 @@ const AdModal = ({
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>
-          {selfAd ? "Meu Anúncio" : "Anúncio de " + ad.userEmail}
+          {selfAd ? "Meu Anúncio" : "Anúncio de " + capitalizeWords(ad.userFullName)}
         </ModalHeader>
         <ModalCloseButton />
         <ModalBody w="100%">
@@ -181,7 +191,7 @@ const AdModal = ({
                       {
                         ad.loans.map((loan) => (
                           <Tr>
-                            <Td>{loan.borrowerEmail}</Td>
+                            <Td>{loan.borrowerUsername}</Td>
                             <Td>{loan.beginDate}</Td>
                             <Td>{loan.endDate}</Td>
                           </Tr>
@@ -220,8 +230,8 @@ const AdModal = ({
                           <label>E-mail</label>
                           <PopInput
                             placeholder="E-mail do usuário"
-                            name="email"
-                            onChange={(e) => setLoanEmail(e.target.value)}
+                            name="name"
+                            onChange={(e) => setLoanUsername(e.target.value)}
                           />
                           <label>Data do empréstimo</label>
                           <Input
@@ -239,7 +249,7 @@ const AdModal = ({
                             <PButton
                               onClick={() =>
                                 handleLoan({
-                                  borrowerEmail: loanEmail,
+                                  borrowerUsername: loanUsername,
                                   advertisementId: ad.id,
                                   beginDate,
                                   endDate

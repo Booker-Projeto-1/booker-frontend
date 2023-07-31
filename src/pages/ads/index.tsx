@@ -43,7 +43,7 @@ const Ads = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedAd, setSelectedAd] = useState<Ad>({
     id: 1,
-    userEmail: "",
+    userFullName: "",
     active: false,
     bookId: "",
     borrowed: false,
@@ -111,6 +111,16 @@ const Ads = () => {
     setSelectedAd(ad);
   };
 
+  const capitalizeWords = (str: string) => {
+    if (str) {
+      return str
+        .toLowerCase()
+        .split(' ')
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
+    } else return "";
+  };
+
   return (
     <Layout title="Anúncios">
       <>
@@ -150,7 +160,7 @@ const Ads = () => {
                                     />
                                     <BookInfoBox>
                                         <Text fontSize="12px" fontWeight="bold">{ad.book.title.substring(0, 50)}</Text>
-                                        <Text fontSize="10px">{`Anunciado por ${ad.userEmail}`}</Text>
+                                        <Text fontSize="10px">{`Anunciado por ${capitalizeWords(ad.userFullName)}`}</Text>
                                     </BookInfoBox>
                                 </CardBody>
                             </Card>
