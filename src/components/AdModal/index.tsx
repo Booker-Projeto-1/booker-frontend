@@ -34,6 +34,7 @@ import { useState } from "react";
 import PButton from "../Button";
 import { AlertContainer, SpaceBetweenButtons, AlertContent, PopInput } from "./styles";
 import ReactHtmlParser from 'react-html-parser';
+import { capitalizeWords } from "@/util";
 
 interface BookModalProps {
   isOpen: boolean;
@@ -67,16 +68,6 @@ const AdModal = ({
   };
 
   const toast = useToast();
-
-  const capitalizeWords = (str: string) => {
-    if (str) {
-      return str
-        .toLowerCase()
-        .split(' ')
-        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(' ');
-    } else return "";
-  };
 
   const handleUpdateAd = (ad: updateAdRequestData) => {
     updateAdRequest(ad)

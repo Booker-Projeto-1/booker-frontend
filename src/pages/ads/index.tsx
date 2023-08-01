@@ -26,6 +26,7 @@ import {
 } from "./style";
 
 import Router from "next/router";
+import { capitalizeWords } from "@/util";
 
 const defaultBook = {
   id: "",
@@ -109,16 +110,6 @@ const Ads = () => {
   const handleClickCard = (ad: Ad) => {
     setIsModalOpen(true);
     setSelectedAd(ad);
-  };
-
-  const capitalizeWords = (str: string) => {
-    if (str) {
-      return str
-        .toLowerCase()
-        .split(' ')
-        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(' ');
-    } else return "";
   };
 
   return (
