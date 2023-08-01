@@ -1,6 +1,6 @@
 import { AuthContext } from "@/context/AuthContext";
 import { NextPage } from "next";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { Button, Container, FormContainer, FormTitle, Input, InputContainer, FormLabel, FormControl } from "./styles";
 import { getAPIClient } from "@/services/axios";
 import Layout from "@/components/Layout";
@@ -10,10 +10,19 @@ const Me: NextPage = () => {
   const { user } = useContext(AuthContext);
   const toast = useToast();
 
-  const [firstName, setFirstName] = useState(user?.firstName || "");
-  const [lastName, setlastName] = useState(user?.lastName || "");
-  const [email] = useState(user?.email || "");
-  const [phoneNumber, setPhoneNumber] = useState(user?.phoneNumber || "");
+  const [firstName, setFirstName] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [phoneNumber, setPhoneNumber] = useState<string>("");
+
+  useEffect(() => {
+    if (user) {
+      setFirstName(user.firstName || "");
+      setLastName(user.lastName || "");
+      setEmail(user.email || "");
+      setPhoneNumber(user.phoneNumber || "");
+    }
+  }, [user]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -22,7 +31,7 @@ const Me: NextPage = () => {
         setFirstName(value);
         break;
       case "lastName":
-        setlastName(value);
+        setLastName(value);
         break;
       case "phoneNumber":
         setPhoneNumber(value);
@@ -56,15 +65,24 @@ const Me: NextPage = () => {
         firstName,
         lastName,
         phoneNumber,
-        email
+        email,
       });
+
+      setFirstName(response.data.firstName);
+      setLastName(response.data.lastName);
+      setPhoneNumber(response.data.phoneNumber);
+
       toast({
         title: "Sucesso",
         description: response.data.message,
         status: "success",
-        duration: 3000,
+        duration: 1500,
         isClosable: true,
       });
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500);
     } catch (error) {
       toast({
         title: "Erro",
