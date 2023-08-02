@@ -9,7 +9,7 @@ export interface Book {
 
 export interface Ad {
     id: number;
-    userEmail: string;
+    userFullName: string;
     phoneNumber: string;
     bookId: string;
     description: string;

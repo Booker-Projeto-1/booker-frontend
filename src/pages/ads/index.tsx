@@ -26,6 +26,7 @@ import {
 } from "./style";
 
 import Router from "next/router";
+import { capitalizeWords } from "@/util";
 
 const defaultBook = {
   id: "",
@@ -43,7 +44,7 @@ const Ads = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedAd, setSelectedAd] = useState<Ad>({
     id: 1,
-    userEmail: "",
+    userFullName: "",
     active: false,
     bookId: "",
     borrowed: false,
@@ -150,7 +151,7 @@ const Ads = () => {
                                     />
                                     <BookInfoBox>
                                         <Text fontSize="12px" fontWeight="bold">{ad.book.title.substring(0, 50)}</Text>
-                                        <Text fontSize="10px">{`Anunciado por ${ad.userEmail}`}</Text>
+                                        <Text fontSize="10px">{`Anunciado por ${capitalizeWords(ad.userFullName)}`}</Text>
                                     </BookInfoBox>
                                 </CardBody>
                             </Card>

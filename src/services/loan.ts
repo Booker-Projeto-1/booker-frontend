@@ -1,7 +1,7 @@
 import { api } from "./api";
 
 type newLoanRequestData = {
-  borrowerEmail: string;
+  borrowerUsername: string;
   advertisementId: string;
 };
 
