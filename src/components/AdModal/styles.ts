@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import Button from "../Button";
 
 export const PopInput = styled.input`
   width: 100%;
@@ -14,6 +13,7 @@ export const PopInput = styled.input`
     color: ${(props) => props.theme.textColor};
   }
 `;
+
 export const AlertContainer = styled.div`
   background-color: rgba(0, 0, 0, 0.5);
   position: fixed;
