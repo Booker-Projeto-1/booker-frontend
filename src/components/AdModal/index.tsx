@@ -264,52 +264,6 @@ const AdModal = ({ isOpen, onCloseFunction, ad, selfAd }: BookModalProps) => {
                     </PopoverBody>
                   </PopoverContent>
                 </Popover>
-                // <Popover>
-                //   <PopoverTrigger>
-                //     <PButton>Emprestar livro para</PButton>
-                //   </PopoverTrigger>
-                //   <PopoverContent>
-                //     <PopoverArrow />
-                //     <PopoverCloseButton />
-                //     <PopoverHeader>Emprestar livro para</PopoverHeader>
-                //     <PopoverBody>
-                //       <Flex gap="0.5rem" direction="column">
-                //         <label>E-mail</label>
-                //         <PopInput
-                //           placeholder="E-mail do usuário"
-                //           name="name"
-                //           onChange={(e) => setLoanUsername(e.target.value)}
-                //         />
-                //         <label>Data do empréstimo</label>
-                //         <Input
-                //           placeholder="Select Date and Time"
-                //           type="date"
-                //           onChange={(e) => setBeginDate(e.target.value)}
-                //         />
-                //         <label>Data de devolução</label>
-                //         <Input
-                //           placeholder="Select Date and Time"
-                //           type="date"
-                //           onChange={(e) => setEndDate(e.target.value)}
-                //         />
-                //         <Flex direction="row" gap="1rem">
-                //           <PButton
-                //             onClick={() =>
-                //               handleLoan({
-                //                 borrowerUsername: loanUsername,
-                //                 advertisementId: ad.id,
-                //                 beginDate,
-                //                 endDate,
-                //               })
-                //             }
-                //           >
-                //             Salvar
-                //           </PButton>
-                //         </Flex>
-                //       </Flex>
-                //     </PopoverBody>
-                //   </PopoverContent>
-                // </Popover>
               )}
               <PButton
                 onClick={() =>
