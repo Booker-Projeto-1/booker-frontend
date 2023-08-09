@@ -156,7 +156,9 @@ const Ads = () => {
                                 </CardBody>
                             </Card>
                         ))}
-                        <AdModal isOpen={isModalOpen} onCloseFunction={() => setIsModalOpen(false)} ad={selectedAd}/>
+                        {
+                            isModalOpen && (<AdModal isOpen={isModalOpen} onCloseFunction={() => setIsModalOpen(false)} ad={selectedAd}/>)
+                        }
                     </>
                 ) : (
                     <Text>Nenhum anúncio cadastrado</Text>
