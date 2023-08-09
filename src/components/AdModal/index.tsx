@@ -1,10 +1,12 @@
 import { updateAdRequest, updateAdRequestData } from "@/services/advertisement";
 import { newLoanRequest } from "@/services/loan";
 import { Ad } from "@/types/types";
+import { capitalizeWords } from "@/util";
 import {
   Button,
   Flex,
   Image,
+  Input,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -28,13 +30,16 @@ import {
   Thead,
   Tr,
   useToast,
-  Input,
 } from "@chakra-ui/react";
 import { useState } from "react";
+import ReactHtmlParser from "react-html-parser";
 import PButton from "../Button";
-import { AlertContainer, SpaceBetweenButtons, AlertContent, PopInput } from "./styles";
-import ReactHtmlParser from 'react-html-parser';
-import { capitalizeWords } from "@/util";
+import {
+  AlertContainer,
+  AlertContent,
+  PopInput,
+  SpaceBetweenButtons,
+} from "./styles";
 
 interface BookModalProps {
   isOpen: boolean;
@@ -43,18 +48,12 @@ interface BookModalProps {
   selfAd?: boolean;
 }
 
-const AdModal = ({
-  isOpen,
-  onCloseFunction,
-  ad,
-  selfAd = false,
-}: BookModalProps) => {
+const AdModal = ({ isOpen, onCloseFunction, ad, selfAd }: BookModalProps) => {
   const [loanUsername, setLoanUsername] = useState("");
   const [beginDate, setBeginDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [showAlert, setShowAlert] = useState(false);
   const [redirectToWhatsApp, setRedirectToWhatsApp] = useState(false);
-
 
   const handleWhatsAppButtonClick = () => {
     setShowAlert(true);
@@ -87,19 +86,19 @@ const AdModal = ({
           isClosable: true,
         })
       );
-  }
+  };
 
   const handleLoan = async (data: any) => {
-    const bDate = new Date(data.beginDate)
-    const eDate = new Date(data.endDate)
-    const formattedBeginDate = bDate.toLocaleDateString('pt-br')
-    const formattedEndDate = eDate.toLocaleDateString('pt-br')
+    const bDate = new Date(data.beginDate);
+    const eDate = new Date(data.endDate);
+    const formattedBeginDate = bDate.toLocaleDateString("pt-br");
+    const formattedEndDate = eDate.toLocaleDateString("pt-br");
     const newLoanRequestData = {
       borrowerUsername: capitalizeWords(data.userFullName),
       advertisementId: data.advertisementId,
       beginDate: formattedBeginDate,
-      endDate: formattedEndDate
-    }
+      endDate: formattedEndDate,
+    };
     newLoanRequest(newLoanRequestData)
       .then(() =>
         toast({
@@ -128,12 +127,18 @@ const AdModal = ({
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>
-          {selfAd ? "Meu Anúncio" : "Anúncio de " + capitalizeWords(ad.userFullName)}
+          {selfAd
+            ? "Meu Anúncio"
+            : "Anúncio de " + capitalizeWords(ad.userFullName)}
         </ModalHeader>
         <ModalCloseButton />
         <ModalBody w="100%">
           <Flex gap="2rem" direction="column">
-            <Flex gap="2rem" direction={{ base: "column", md: "row" }} alignItems={{ base: 'center', md: 'flex-start' }}>
+            <Flex
+              gap="2rem"
+              direction={{ base: "column", md: "row" }}
+              alignItems={{ base: "center", md: "flex-start" }}
+            >
               <Image
                 w="40%"
                 src={ad.book.imageLink || "book-default.png"}
@@ -179,15 +184,13 @@ const AdModal = ({
                       </Tr>
                     </Thead>
                     <Tbody>
-                      {
-                        ad.loans.map((loan) => (
-                          <Tr>
-                            <Td>{loan.borrowerUsername}</Td>
-                            <Td>{loan.beginDate}</Td>
-                            <Td>{loan.endDate}</Td>
-                          </Tr>
-                        ))
-                      }
+                      {ad.loans.map((loan) => (
+                        <Tr>
+                          <Td>{loan.borrowerUsername}</Td>
+                          <Td>{loan.beginDate}</Td>
+                          <Td>{loan.endDate}</Td>
+                        </Tr>
+                      ))}
                     </Tbody>
                   </Table>
                 </TableContainer>
@@ -199,65 +202,126 @@ const AdModal = ({
         <ModalFooter>
           {selfAd ? (
             <Flex direction="row" gap="1rem" w="100%" justifyContent="flex-end">
-              {
-                ad.borrowed ? (
-                  <PButton onClick={() => handleUpdateAd({
+              {ad.borrowed ? (
+                <PButton
+                  onClick={() =>
+                    handleUpdateAd({
+                      id: ad.id,
+                      description: ad.description,
+                      borrowed: !ad.borrowed,
+                      active: ad.active,
+                    })
+                  }
+                >
+                  Marcar como devolvido
+                </PButton>
+              ) : (
+                <Popover>
+                  <PopoverTrigger>
+                    <Button borderRadius={"30px"} bg={"#5E5E5E"} color={"#fff"}>
+                      Emprestar livro para
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent>
+                    <PopoverArrow />
+                    <PopoverCloseButton />
+                    <PopoverHeader>Emprestar livro para</PopoverHeader>
+                    <PopoverBody>
+                      <Flex gap="0.5rem" direction="column">
+                        <label>E-mail</label>
+                        <PopInput
+                          placeholder="E-mail do usuário"
+                          name="name"
+                          onChange={(e) => setLoanUsername(e.target.value)}
+                        />
+                        <label>Data do empréstimo</label>
+                        <Input
+                          placeholder="Select Date and Time"
+                          type="date"
+                          onChange={(e) => setBeginDate(e.target.value)}
+                        />
+                        <label>Data de devolução</label>
+                        <Input
+                          placeholder="Select Date and Time"
+                          type="date"
+                          onChange={(e) => setEndDate(e.target.value)}
+                        />
+                        <Flex direction="row" gap="1rem">
+                          <PButton
+                            onClick={() =>
+                              handleLoan({
+                                borrowerUsername: loanUsername,
+                                advertisementId: ad.id,
+                                beginDate,
+                                endDate,
+                              })
+                            }
+                          >
+                            Salvar
+                          </PButton>
+                        </Flex>
+                      </Flex>
+                    </PopoverBody>
+                  </PopoverContent>
+                </Popover>
+                // <Popover>
+                //   <PopoverTrigger>
+                //     <PButton>Emprestar livro para</PButton>
+                //   </PopoverTrigger>
+                //   <PopoverContent>
+                //     <PopoverArrow />
+                //     <PopoverCloseButton />
+                //     <PopoverHeader>Emprestar livro para</PopoverHeader>
+                //     <PopoverBody>
+                //       <Flex gap="0.5rem" direction="column">
+                //         <label>E-mail</label>
+                //         <PopInput
+                //           placeholder="E-mail do usuário"
+                //           name="name"
+                //           onChange={(e) => setLoanUsername(e.target.value)}
+                //         />
+                //         <label>Data do empréstimo</label>
+                //         <Input
+                //           placeholder="Select Date and Time"
+                //           type="date"
+                //           onChange={(e) => setBeginDate(e.target.value)}
+                //         />
+                //         <label>Data de devolução</label>
+                //         <Input
+                //           placeholder="Select Date and Time"
+                //           type="date"
+                //           onChange={(e) => setEndDate(e.target.value)}
+                //         />
+                //         <Flex direction="row" gap="1rem">
+                //           <PButton
+                //             onClick={() =>
+                //               handleLoan({
+                //                 borrowerUsername: loanUsername,
+                //                 advertisementId: ad.id,
+                //                 beginDate,
+                //                 endDate,
+                //               })
+                //             }
+                //           >
+                //             Salvar
+                //           </PButton>
+                //         </Flex>
+                //       </Flex>
+                //     </PopoverBody>
+                //   </PopoverContent>
+                // </Popover>
+              )}
+              <PButton
+                onClick={() =>
+                  handleUpdateAd({
                     id: ad.id,
                     description: ad.description,
-                    borrowed: !ad.borrowed,
-                    active: ad.active
-                  })}>Marcar como devolvido</PButton>
-                ) : (
-                  <Popover>
-                    <PopoverTrigger>
-                      <PButton>Emprestar livro para</PButton>
-                    </PopoverTrigger>
-                    <PopoverContent>
-                      <PopoverArrow />
-                      <PopoverCloseButton />
-                      <PopoverHeader>Emprestar livro para</PopoverHeader>
-                      <PopoverBody>
-                        <Flex gap="0.5rem" direction="column">
-                          <label>E-mail</label>
-                          <PopInput
-                            placeholder="E-mail do usuário"
-                            name="name"
-                            onChange={(e) => setLoanUsername(e.target.value)}
-                          />
-                          <label>Data do empréstimo</label>
-                          <Input
-                            placeholder="Select Date and Time"
-                            type="date"
-                            onChange={(e) => setBeginDate(e.target.value)}
-                          />
-                          <label>Data de devolução</label>
-                          <Input
-                            placeholder="Select Date and Time"
-                            type="date"
-                            onChange={(e) => setEndDate(e.target.value)}
-                          />
-                          <Flex direction="row" gap="1rem">
-                            <PButton
-                              onClick={() =>
-                                handleLoan({
-                                  borrowerUsername: loanUsername,
-                                  advertisementId: ad.id,
-                                  beginDate,
-                                  endDate
-                                })
-                              }
-                            >
-                              Salvar
-                            </PButton>
-                          </Flex>
-                        </Flex>
-                      </PopoverBody>
-                    </PopoverContent>
-                  </Popover>
-                )
-              }
-              <PButton onClick={() => handleUpdateAd({ id: ad.id, description: ad.description, active: !ad.active, borrowed: ad.borrowed })}>
-                {ad.active ? 'Desativar anúncio' : 'Ativar anúncio'}
+                    active: !ad.active,
+                    borrowed: ad.borrowed,
+                  })
+                }
+              >
+                {ad.active ? "Desativar anúncio" : "Ativar anúncio"}
               </PButton>
             </Flex>
           ) : (
